@@ -8,7 +8,7 @@ class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
         self.commonShareCode = ["37ff922b-ba7b-4fb0-b6f9-c28042297b75","49675a5f-6efc-4609-8c9f-2163f2a474b1","b9d117c6-d5b6-48a6-a2a5-164a616c0490"] + shareCode['common']
-        self.motherDayShareCode = ["161bb055-25d4-46dc-a029-7aa3e0e333da","e225f3ca-4216-476e-893c-f43b8a9ededb","3b37002d-10e5-4c99-8dca-8680bcd15a79"] + shareCode['motherDay']
+        self.motherDayShareCode = shareCode['motherDay']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.currentTime = int(time.time())
 
