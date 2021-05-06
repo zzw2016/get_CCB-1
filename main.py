@@ -1,3 +1,10 @@
+# Author: leeyiding(乌拉)
+# Date: 2020-05-05
+# Link: https://github.com/leeyiding/get_CCB
+# Version: 0.1.1
+# UpdateDate: 2020-05-05 09:30
+# UpdateLog: 添加Cookie中XSRF-TOKEN参数失效检测
+
 import requests
 import json
 import os
@@ -214,7 +221,7 @@ class getCCB():
             else:
                 getUserCCBResult = self.getApi('Component/draw/getUserCCB','03ljx6mW')
                 userRemainDrawNum = getUserCCBResult['data']['draw_day_max_num'] - int(getUserCCBResult['data']['user_day_draw_num'])
-                if int(getUserCCBResult['data']['user_day_draw_num']) < 3:
+                if int(getUserCCBResult['data']['user_day_draw_num']) <= 3:
                     print('今日已抽奖次数小于3，开始执行抽奖')
                     if userRemainDrawNum > 7:
                         breakTotalCCB = 30
