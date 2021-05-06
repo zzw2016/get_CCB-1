@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.3.1
-# UpdateDate: 2020-05-06 19:34
-# UpdateLog: 添加主会场助力任务，每人每天助力次数未知
+# Version: 0.3.2
+# UpdateDate: 2020-05-06 19:46
+# UpdateLog: 修复主会场邀请任务完成后，无法自动领取奖励Bug
 
 import requests
 import json
@@ -116,6 +116,11 @@ class getCCB():
                 # 判断任务状态
                 if taskList['data']['userTask'][i]['finish'] ==1:
                     print('该任务已完成，无需重复执行')
+                    # 领取邀请任务奖励
+                    if taskList['data']['task'][i]['type'] == 'share':
+                        data = '{"id":"' + taskList['data']['task'][i]['id'] + '"}'
+                        acceptResult = self.postApi('Component/task/draw',data)
+                        print(acceptResult['message'])
                 else:
                     # 判断任务类型
                     if taskList['data']['task'][i]['type'] == 'visit' or taskList['data']['task'][i]['type'] == 'other':
