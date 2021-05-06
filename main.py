@@ -1,15 +1,16 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.1.1
-# UpdateDate: 2020-05-05 09:30
-# UpdateLog: 添加Cookie中XSRF-TOKEN参数失效检测
+# Version: 0.1.2
+# UpdateDate: 2020-05-05 10:40
+# UpdateLog: 新增每日一答
 
 import requests
 import json
 import os
 import time
 import re
+import random
 
 class getCCB():
     def __init__(self,cookies,shareCode):
@@ -247,6 +248,37 @@ class getCCB():
         else:
             print('抱歉，该活动已结束')
 
+
+    def dayAnswer(self):
+        '''
+            奋斗学院每日一答
+            无论对称，奖励均为10建设值
+        '''
+        print('\n开始每日一答')
+        activityInfo = self.getApi('Common/activity/getActivityInfo','jmX0aKmd')
+        if self.currentTime < activityInfo['data']['end_time']:
+            # 获取用户答题信息
+            userDataInfo = self.getApi('activity/dopanswer/getUserDataInfo','jmX0aKmd')
+            if userDataInfo['data']['remain_num'] == 1:
+                # 获取题目
+                question = self.getApi('activity/dopanswer/getQuestion','jmX0aKmd')
+                questionTitle =question['data']['all_question'][0]['question']['title']
+                questionId = question['data']['all_question'][0]['question']['id']
+                print('问：{} id:{}'.format(questionTitle,questionId))
+                for i in range(len(question['data']['all_question'][0]['option'])):
+                    print('选项{}：{}'.format(i+1,question['data']['all_question'][0]['option'][i]['title']))
+                # 随机答题
+                randomOption = random.randint(1,len(question['data']['all_question'][0]['option']))
+                print('随机选择选项{}'.format(randomOption))
+                data = '{"answerId":"' + str(randomOption) +'","questionId":"' + str(questionId) + '"}'
+                answerQuestionResult = self.postApi('activity/dopanswer/answerQuestion',data,'jmX0aKmd')
+                print('正确答案：选项{}'.format(answerQuestionResult['data']['right']))
+                print(answerQuestionResult['message'])
+            else:
+                print('今日答题机会已用尽')
+        else:
+            print('抱歉，该活动已结束')
+
     def mothersDayTask(self):
         '''
         母亲节晒妈活动
@@ -298,6 +330,8 @@ class getCCB():
             self.doCarTask()
             # 天天抽奖活动
             self.draw()
+            # 每日一答
+            self.dayAnswer()
             # 母亲节晒妈活动
             self.mothersDayTask()
         except:
