@@ -25,6 +25,7 @@ class getCCB():
         try:
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             if re.findall('DOCTYPE',r.text):
+                print('Cookie已失效，请更新Cookie')
                 return False
             else:
                 return r.json()
@@ -51,6 +52,7 @@ class getCCB():
         try:
             r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
             if re.findall('DOCTYPE',r.text):
+                print('Cookie已失效，请更新Cookie')
                 return False
             else:
                 return r.json()
@@ -264,6 +266,8 @@ class getCCB():
 
             # 助力好友
             print('开始助力好友')
+            if len(self.motherDayShareCode) == 0:
+                print('未发现任何助力码')
             for i in range(len(self.motherDayShareCode)):
                 userLaunchInfo = self.getApi('activity/mumbit/getUserLaunchInfo','jmX08Ymd',(('share_ident', self.motherDayShareCode[i]),))
                 if userLaunchInfo['code'] == 2101:
@@ -276,19 +280,21 @@ class getCCB():
                     print('助力好友{}结果：{}'.format(friendName,doUserHelpResult['message']))
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
-
         else:
             print('抱歉，该活动已结束')
 
     def main(self):
-        # 主会场活动
-        self.doTask()
-        # 车主分会场活动
-        self.doCarTask()
-        # 天天抽奖活动
-        self.draw()
-        # 母亲节晒妈活动
-        self.mothersDayTask()
+        try:
+            # 主会场活动
+            self.doTask()
+            # 车主分会场活动
+            self.doCarTask()
+            # 天天抽奖活动
+            self.draw()
+            # 母亲节晒妈活动
+            self.mothersDayTask()
+        except:
+            pass
     
 def readConfig(configPath):
     with open(configPath,encoding='UTF-8') as fp:
