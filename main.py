@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.1.3
-# UpdateDate: 2020-05-05 11:00
-# UpdateLog: 添加领取母亲节活动满助力奖励功能
+# Version: 0.1.4
+# UpdateDate: 2020-05-05 12:35
+# UpdateLog: 修复车主分会场未增加三次抽奖机会Bug
 
 import requests
 import json
@@ -33,8 +33,7 @@ class getCCB():
         try:
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             if re.findall('DOCTYPE',r.text):
-                print('Cookie已失效，请更新Cookie')
-                return False
+                return r.text
             else:
                 return r.json()
         except:
@@ -177,6 +176,8 @@ class getCCB():
         print('\n开始做车主分会场任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo','dmRe4rPD')
         if self.currentTime < activityInfo['data']['end_time']:
+            # 访问首页，获得三次抽奖机会
+            self.getApi('a','dmRe4rPD/parallelsessions_v1/index',(('CCB_Chnl', '6000213'),))
             # 获取任务列表
             taskList = self.getApi('activity/parallelsessions/getIndicatorList','dmRe4rPD')
             print('共获取到{}个任务'.format(len(taskList['data']['task'])))
