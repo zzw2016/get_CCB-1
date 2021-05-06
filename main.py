@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.1.2
-# UpdateDate: 2020-05-05 10:40
-# UpdateLog: 新增每日一答
+# Version: 0.1.3
+# UpdateDate: 2020-05-05 11:00
+# UpdateLog: 添加领取母亲节活动满助力奖励功能
 
 import requests
 import json
@@ -204,6 +204,7 @@ class getCCB():
         else:
             print('抱歉，该活动已结束')
 
+
     def draw(self):
         '''
         抽奖，每日10次机会
@@ -279,6 +280,7 @@ class getCCB():
         else:
             print('抱歉，该活动已结束')
 
+
     def mothersDayTask(self):
         '''
         母亲节晒妈活动
@@ -303,6 +305,12 @@ class getCCB():
                 print('开启分享结果：'.format(doUserLaunchResult['message']))
             print('当前账号已获赞{}，还需{}个点赞'.format(judgeStatus['data']['help_num'],judgeStatus['data']['need_help_num']))
 
+            # 领取满助力奖励
+            if int(judgeStatus['data']['help_num']) >= 20:
+                print('已达到领奖条件，开始领取奖励')
+                getRewardResult = self.getApi('activity/mumbit/draw','jmX08Ymd')
+                print(getRewardResult['message'])
+
             # 助力好友
             print('开始助力好友')
             if len(self.motherDayShareCode) == 0:
@@ -321,6 +329,7 @@ class getCCB():
                     time.sleep(5)
         else:
             print('抱歉，该活动已结束')
+
 
     def main(self):
         try:
