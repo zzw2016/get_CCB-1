@@ -2,8 +2,8 @@
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
 # Version: 0.3.2
-# UpdateDate: 2020-05-06 19:46
-# UpdateLog: 修复主会场邀请任务完成后，无法自动领取奖励Bug
+# UpdateDate: 2020-05-06 19:58
+# UpdateLog: 打印脚本开始及结束执行时间
 
 import requests
 import json
@@ -161,7 +161,7 @@ class getCCB():
         print('\n开始助力好友')
         if len(self.commonShareCode) == 0:
             print('未提供任何助力码')
-        else：
+        else:
             print('您提供了{}个好友助力码'.format(len(self.commonShareCode)))
         for i in range(len(self.commonShareCode)):
             print('开始助力好友{}'.format(i+1))
@@ -399,6 +399,7 @@ def readConfig(configPath):
     return config
 
 if __name__ == '__main__':
+    print('脚本执行开始时间' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     rootDir = os.path.dirname(os.path.abspath(__file__))
     configPath = rootDir + "/config.json"
     config = readConfig(configPath)
@@ -408,3 +409,4 @@ if __name__ == '__main__':
             user.main()
         else:
             print('\n账号{}已失效，请及时更新Cookie'.format(i+1))
+    print('脚本执行结束时间' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
