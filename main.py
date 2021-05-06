@@ -252,7 +252,7 @@ class getCCB():
     def dayAnswer(self):
         '''
             奋斗学院每日一答
-            无论对称，奖励均为10建设值
+            无论对错，奖励均为10建设值
         '''
         print('\n开始每日一答')
         activityInfo = self.getApi('Common/activity/getActivityInfo','jmX0aKmd')
