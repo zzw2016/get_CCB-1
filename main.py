@@ -24,11 +24,11 @@ class getCCB():
         '''
         GET请求接口
         '''
-        url = 'https://jxjkhd.kerlala.com/{}/91/{}'.format(functionId,activityId)
+        url = 'https://fission-events.ccbft.com/{}/91/{}'.format(functionId,activityId)
         headers = {
-            'authority': 'jxjkhd.kerlala.com',
+            'authority': 'fission-events.ccbft.com',
             'user-agent': 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64',
-            'referer': 'https://jxjkhd.kerlala.com/a/91/lPYNjdmN/fdtopic_v1/index',
+            'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
         }
         try:
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
@@ -47,13 +47,13 @@ class getCCB():
         '''
         POST请求接口
         '''
-        url = 'https://jxjkhd.kerlala.com/{}/91/{}'.format(functionId,activityId)
+        url = 'https://fission-events.ccbft.com/{}/91/{}'.format(functionId,activityId)
         headers = {
-            'authority': 'jxjkhd.kerlala.com',
+            'authority': 'fission-events.ccbft.com',
             'x-xsrf-token': self.xsrfToken,
             'user-agent': 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64',
-            'origin': 'https://jxjkhd.kerlala.com',
-            'referer': 'https://jxjkhd.kerlala.com/a/91/lPYNjdmN/fdtopic_v1/index',
+            'origin': 'https://fission-events.ccbft.com',
+            'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
             'content-type': 'application/json;charset=UTF-8',
         }
         try:

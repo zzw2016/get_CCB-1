@@ -17,7 +17,7 @@
 
 ## 抓包说明
 
-1. 前往[龙支付奋斗季主会场](https://jxjkhd.kerlala.com/a/91/lPYNjdmN?u=37ff922b-ba7b-4fb0-b6f9-c28042297b75)，使用手机号登陆并报名首页天天抽奖活动
+1. 前往[龙支付奋斗季主会场](https://fission-events.ccbft.com/a/91/lPYNjdmN?u=37ff922b-ba7b-4fb0-b6f9-c28042297b75)，使用手机号登陆并报名首页天天抽奖活动
 
 2. 在Cookie中抓取`XSRF-TOKEN`和`_session`参数并填入配置文件
 
