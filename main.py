@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.1.4
-# UpdateDate: 2020-05-05 12:35
-# UpdateLog: 修复车主分会场未增加三次抽奖机会Bug
+# Version: 0.2.1
+# UpdateDate: 2020-05-06 19:01
+# UpdateLog: 添加龙支付分会场 龙支付优惠集锦活动
 
 import requests
 import json
@@ -167,6 +167,31 @@ class getCCB():
             self.buildingUp()
         else:
             print('建设值不足,距下一等级还需{}建设值'.format(userInfo['data']['need_build_score']))
+
+
+    def doSubvenueTask(self):
+        '''
+        分会场 龙支付优惠集锦
+        '''
+        print('\n开始做龙支付分会场任务')
+        activityInfo = self.getApi('Common/activity/getActivityInfo','5Z9WxaPK')
+        if self.currentTime < activityInfo['data']['end_time']:
+            # 获取任务列表
+            taskList = self.getApi('activity/lzfsubvenue/getIndicatorList','5Z9WxaPK')
+            print('共获取到{}个任务'.format(len(taskList['data']['task'])))
+            for i in range(len(taskList['data']['task'])):
+                print('\n开始做任务【{}】'.format(taskList['data']['task'][i]['indicator']['show_name']))
+                if taskList['data']['task'][i]['day_complete'] == 1:
+                    print('该任务今日已完成，无需重复执行')
+                elif taskList['data']['task'][i]['day_complete'] == 0:
+                    data = '{"code": "' + taskList['data']['task'][i]['indicator']['code'] + '"}'
+                    doTaskResult = self.postApi('activity/lzfsubvenue/visit',data,'5Z9WxaPK')
+                    print(doTaskResult)
+                    if doTaskResult['message'] == 'ok':
+                        print('任务完成，获得5CC币')
+                    time.sleep(5)
+        else:
+            print('抱歉，该活动已结束')
 
 
     def doCarTask(self):
@@ -336,6 +361,8 @@ class getCCB():
         try:
             # 主会场活动
             self.doTask()
+            # 龙支付分会场活动
+            self.doSubvenueTask()
             # 车主分会场活动
             self.doCarTask()
             # 天天抽奖活动
