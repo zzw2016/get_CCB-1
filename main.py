@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.2.1
-# UpdateDate: 2020-05-06 19:01
-# UpdateLog: 添加龙支付分会场 龙支付优惠集锦活动
+# Version: 0.3.1
+# UpdateDate: 2020-05-06 19:34
+# UpdateLog: 添加主会场助力任务，每人每天助力次数未知
 
 import requests
 import json
@@ -15,7 +15,7 @@ import random
 class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
-        self.commonShareCode = ["37ff922b-ba7b-4fb0-b6f9-c28042297b75","49675a5f-6efc-4609-8c9f-2163f2a474b1","b9d117c6-d5b6-48a6-a2a5-164a616c0490"] + shareCode['common']
+        self.commonShareCode = ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"] + shareCode['common']
         self.motherDayShareCode = shareCode['motherDay']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.currentTime = int(time.time())
@@ -130,8 +130,7 @@ class getCCB():
                         if signinResult['status'] == 'success':
                             print('获得{}'.format(signinResult['data']['prize_name']))
                     elif taskList['data']['task'][i]['type'] == 'share':
-                        # 助力任务
-                        print('助力逻辑未知')
+                        pass
                     # 领取奖励
                     if taskList['data']['task'][i]['draw_type'] == 'number':
                         # 气泡类型奖励
@@ -143,11 +142,26 @@ class getCCB():
                         print(acceptResult['message'])
                     # 休息五秒，防止接口提示频繁 
                     time.sleep(5)
+            # 助力好友
+            self.doHelp()
             # 升级建筑
             self.buildingUp()
         else:
             print('抱歉，该活动已结束')
 
+    def doHelp(self):
+        '''
+        助力任务
+        '''
+        print('\n开始助力好友')
+        if len(self.commonShareCode) == 0:
+            print('未提供任何助力码')
+        else：
+            print('您提供了{}个好友助力码'.format(len(self.commonShareCode)))
+        for i in range(len(self.commonShareCode)):
+            print('开始助力好友{}'.format(i+1))
+            self.getApi('a','lPYNjdmN',(('u', self.commonShareCode[i]),))
+            time.sleep(2)
 
     def buildingUp(self):
         '''
