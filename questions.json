@@ -3,7 +3,7 @@
         "id": 1191,
         "title": "根据外汇局规定，境内个人结汇实行年度便利化额度管理，年度总额分别为每人每年等值（）美元。",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2001,
         "options": [
             {
                 "id": 2001,
@@ -26,7 +26,7 @@
         "id": 1201,
         "title": "根据外汇局规定，境内个人购汇实行年度便利化额度管理，年度总额分别为每人每年等值（）美元。",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2031,
         "options": [
             {
                 "id": 2041,
@@ -49,7 +49,7 @@
         "id": 1211,
         "title": "个人提取外币现钞当日累计等值（）美元以下（含）的，可以在银行直接办理 。",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2071,
         "options": [
             {
                 "id": 2051,
@@ -72,7 +72,7 @@
         "id": 1221,
         "title": "境内个人因留学购汇，应该选择填写《购汇申请书》中的哪个资金用途？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2091,
         "options": [
             {
                 "id": 2081,
@@ -95,7 +95,7 @@
         "id": 1231,
         "title": "下列哪些不是国家外汇管理局在《经常项目指引（2020年版）》中规定的近亲属的范围？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2131,
         "options": [
             {
                 "id": 2131,
@@ -118,7 +118,7 @@
         "id": 1241,
         "title": "境内个人可购买的境外保险是哪一种？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2141,
         "options": [
             {
                 "id": 2151,
@@ -141,7 +141,7 @@
         "id": 1251,
         "title": "超过年度便利化额度的个人结售汇应该怎么办理？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2171,
         "options": [
             {
                 "id": 2181,
@@ -164,7 +164,7 @@
         "id": 1261,
         "title": "小明能够将其境内美元存款10万元直接转给其邻居么？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2221,
         "options": [
             {
                 "id": 2201,
@@ -187,7 +187,7 @@
         "id": 1271,
         "title": "小明暂居国外无法回国，能委托他的爷爷代办便利化额度内的结售汇么？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2241,
         "options": [
             {
                 "id": 2251,
@@ -210,7 +210,7 @@
         "id": 1281,
         "title": "小明暂居国外无法回国，能委托他的朋友小刚代办不占用年度便利化额度的结售汇么？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2281,
         "options": [
             {
                 "id": 2271,
@@ -233,7 +233,7 @@
         "id": 1291,
         "title": "小明在境外游玩，请问他通过境外银联渠道的取款机可以取出外币么？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2291,
         "options": [
             {
                 "id": 2311,
@@ -256,7 +256,7 @@
         "id": 1301,
         "title": "境内银行卡境外提取现金每卡每日额度统一为等值（）元人民币。",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2321,
         "options": [
             {
                 "id": 2321,
@@ -279,7 +279,7 @@
         "id": 1311,
         "title": "个人持境内银行卡在境外提取现金，本人名下银行卡（含附属卡）合计每个自然年度不得超过等值（）万元人民币。",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2361,
         "options": [
             {
                 "id": 2371,
@@ -302,7 +302,7 @@
         "id": 1321,
         "title": "下列哪一种方式会占用便利化额度？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2401,
         "options": [
             {
                 "id": 2391,
@@ -325,7 +325,7 @@
         "id": 1331,
         "title": "单次可以提取超过等值1万美元以上外币现钞吗？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2421,
         "options": [
             {
                 "id": 2421,
@@ -348,7 +348,7 @@
         "id": 1341,
         "title": "小明出国留学，按照学校缴费通知，需缴纳6.8万美元的学费，小明应该如何购汇？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2461,
         "options": [
             {
                 "id": 2441,
@@ -371,7 +371,7 @@
         "id": 1351,
         "title": "中国境内可以用外币支付商品吗？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2491,
         "options": [
             {
                 "id": 2491,
@@ -394,7 +394,7 @@
         "id": 1361,
         "title": "小红出国留学，向境外学校汇款6万美元（5万美元以下可凭本人有效身份证件办理），应该怎么办理？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2511,
         "options": [
             {
                 "id": 2501,
@@ -417,7 +417,7 @@
         "id": 1371,
         "title": "小明办理出国留学购汇，提交相应的有交易额的材料，银行是否可以审核相关材料？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2551,
         "options": [
             {
                 "id": 2531,
@@ -440,7 +440,7 @@
         "id": 1381,
         "title": "个人携带外币现钞入境， 超过等值（） 美元的应该向海关书面申报？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2561,
         "options": [
             {
                 "id": 2581,
@@ -463,7 +463,7 @@
         "id": 1391,
         "title": "结售汇年度便利化额度的年度是多长时间？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2611,
         "options": [
             {
                 "id": 2591,
@@ -486,7 +486,7 @@
         "id": 1401,
         "title": "下列哪种是使用银行卡的正确方式？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2641,
         "options": [
             {
                 "id": 2631,
@@ -509,7 +509,7 @@
         "id": 1411,
         "title": "个人存入外币现钞当日累计等值（）美元以下（含）的，可以在银行直接办理 。",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2671,
         "options": [
             {
                 "id": 2671,
@@ -532,7 +532,7 @@
         "id": 1421,
         "title": "购汇后不能用于下列哪项用途？（）",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2681,
         "options": [
             {
                 "id": 2691,
@@ -555,7 +555,7 @@
         "id": 1431,
         "title": "哪项是办理个人外汇业务的错误做法？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2711,
         "options": [
             {
                 "id": 2721,
@@ -578,7 +578,7 @@
         "id": 1441,
         "title": "哪项是办理个人外汇业务的错误做法？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2751,
         "options": [
             {
                 "id": 2741,
@@ -601,7 +601,7 @@
         "id": 1451,
         "title": "哪项是办理个人外汇业务的错误做法？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2781,
         "options": [
             {
                 "id": 2781,
@@ -624,7 +624,7 @@
         "id": 1461,
         "title": "哪项是办理个人外汇业务的错误做法？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 2821,
         "options": [
             {
                 "id": 2801,
@@ -647,7 +647,7 @@
         "id": 1471,
         "title": "哪项是办理个人外汇业务的错误做法？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 2831,
         "options": [
             {
                 "id": 2851,
@@ -670,7 +670,7 @@
         "id": 1481,
         "title": "哪项是办理个人外汇业务的错误做法？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 2861,
         "options": [
             {
                 "id": 2861,
@@ -693,7 +693,7 @@
         "id": 1541,
         "title": "小明要在建行办理个人跨境汇款，请问下列哪个渠道不能办理跨境汇款？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 3061,
         "options": [
             {
                 "id": 3041,
@@ -716,7 +716,7 @@
         "id": 1551,
         "title": "个人在银行柜台办理年度便利化额度内的购汇，应该提供什么材料？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 3071,
         "options": [
             {
                 "id": 3071,
@@ -739,7 +739,7 @@
         "id": 1561,
         "title": "下列哪些人不适用购汇年度便利化额度？",
         "typeName": "单选",
-        "right": 2,
+        "rightOptionId": 3111,
         "options": [
             {
                 "id": 3121,
@@ -762,7 +762,7 @@
         "id": 1571,
         "title": "个人外汇账户内资金境内划转，下列那种说法是正确的？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 3151,
         "options": [
             {
                 "id": 3151,
@@ -785,7 +785,7 @@
         "id": 1581,
         "title": "小明持美元外币现钞办理占用年度便利化额度结汇，下列哪种说法是错误的？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 3181,
         "options": [
             {
                 "id": 3171,
@@ -808,7 +808,7 @@
         "id": 1591,
         "title": "小明携带外币现钞出境，金额在等值5000美元以上至1万美元（含）的，应该怎么办理？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 3191,
         "options": [
             {
                 "id": 3191,
@@ -831,7 +831,7 @@
         "id": 1601,
         "title": "关于《个人购汇申请书》，下列哪些说法是错误的？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 3221,
         "options": [
             {
                 "id": 3221,
@@ -854,7 +854,7 @@
         "id": 1611,
         "title": "小明购汇1000美元要去美国旅游，《个人购汇申请书》中“资金用途”应该如何填写？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 3271,
         "options": [
             {
                 "id": 3271,
@@ -877,7 +877,7 @@
         "id": 1621,
         "title": "下列哪种说法是正确的？",
         "typeName": "单选",
-        "right": 3,
+        "rightOptionId": 3291,
         "options": [
             {
                 "id": 3301,
@@ -900,7 +900,7 @@
         "id": 1631,
         "title": "下列哪项会占用个人便利化额度？",
         "typeName": "单选",
-        "right": 1,
+        "rightOptionId": 1631,
         "options": [
             {
                 "id": 3331,
