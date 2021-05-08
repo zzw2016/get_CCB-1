@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.4.1
-# UpdateDate: 2020-05-08 10:28
-# UpdateLog: 新增学外汇得实惠答题及抽奖
+# Version: 0.5.1
+# UpdateDate: 2020-05-08 22:36
+# UpdateLog: 新增越花越赚活动每日领奖
 
 import requests
 import json
@@ -15,20 +15,20 @@ import random
 class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
+        self.ua = 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64'
         self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
-        self.currentTime = int(time.time())
         self.questionFilePath = rootDir + '/questions.json'
 
     def getApi(self,functionId,activityId='lPYNjdmN',params=()):
         '''
-        GET请求接口
+        通用GET请求接口
         '''
         url = 'https://fission-events.ccbft.com/{}/91/{}'.format(functionId,activityId)
         headers = {
             'authority': 'fission-events.ccbft.com',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64',
+            'user-agent': self.ua,
             'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
         }
         try:
@@ -40,19 +40,19 @@ class getCCB():
         except:
             print('调用接口失败，等待10秒重试')
             time.sleep(10)
-            r = requests.get(url, headers=headers, cookies=self.cookies)
+            r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             return r.json()
 
 
     def postApi(self,functionId,data,activityId='lPYNjdmN'):
         '''
-        POST请求接口
+        通用POST请求接口
         '''
         url = 'https://fission-events.ccbft.com/{}/91/{}'.format(functionId,activityId)
         headers = {
             'authority': 'fission-events.ccbft.com',
             'x-xsrf-token': self.xsrfToken,
-            'user-agent': 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64',
+            'user-agent': self.ua,
             'origin': 'https://fission-events.ccbft.com',
             'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
             'content-type': 'application/json;charset=UTF-8',
@@ -70,6 +70,28 @@ class getCCB():
             r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
             return r.json()
 
+    def payCostApi(self,functionId,params):
+        '''
+        越花越赚活动GET请求接口
+        '''
+        url = 'https://event.ccbft.com/api/activity/nf/payCost/avtivity/{}'.format(functionId)
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'User-Agent': self.ua,
+            'Referer': self.location,
+        }
+        params = (
+            ('activityCode', 'AP010202102041005765'),
+            ('verFlag', 'act'),
+        ) + params
+        try:
+            r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
+            return r.json()
+        except:
+            print('调用接口失败，等待10秒重试')
+            time.sleep(10)
+            r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
+            return r.json()
 
     def getUserInfo(self):
         '''
@@ -108,7 +130,7 @@ class getCCB():
         '''
         print('\n开始做日常任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 获取任务列表
             taskList = self.getApi('Component/task/lists')
             print('共获取到{}个任务'.format(len(taskList['data']['task'])))
@@ -195,7 +217,7 @@ class getCCB():
         '''
         print('\n开始做龙支付分会场任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo','5Z9WxaPK')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 获取任务列表
             taskList = self.getApi('activity/lzfsubvenue/getIndicatorList','5Z9WxaPK')
             print('共获取到{}个任务'.format(len(taskList['data']['task'])))
@@ -220,7 +242,7 @@ class getCCB():
         '''
         print('\n开始做车主分会场任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo','dmRe4rPD')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 访问首页，获得三次抽奖机会
             self.getApi('a','dmRe4rPD/parallelsessions_v1/index',(('CCB_Chnl', '6000213'),))
             # 获取任务列表
@@ -261,7 +283,7 @@ class getCCB():
         '''
         print('\n开始天天抽奖')
         activityInfo = self.getApi('Common/activity/getActivityInfo','03ljx6mW')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 检查报名状态
             drawStatus = self.getApi('Component/signup/status','03ljx6mW')
             if drawStatus['status'] == 'fail':
@@ -303,7 +325,7 @@ class getCCB():
         '''
         print('\n开始每日一答')
         activityInfo = self.getApi('Common/activity/getActivityInfo','jmX0aKmd')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 获取用户答题信息
             userDataInfo = self.getApi('activity/dopanswer/getUserDataInfo','jmX0aKmd')
             if userDataInfo['data']['remain_num'] == 1:
@@ -333,7 +355,7 @@ class getCCB():
         '''
         print('\n开始做 母亲节集赞得520CC币 活动')
         activityInfo = self.getApi('Common/activity/getActivityInfo','jmX08Ymd')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 获取用户信息
             userInfo = self.getApi('activity/mumbit/getUserInfo','jmX08Ymd')
             print('您的活动助力码为：{}'.format(userInfo['data']['ident']))
@@ -391,7 +413,7 @@ class getCCB():
             return False
         # 读取活动信息
         activityInfo = self.getApi('Common/activity/getActivityInfo','dmRev1PD')
-        if self.currentTime < activityInfo['data']['end_time']:
+        if int(time.time()) < activityInfo['data']['end_time']:
             # 答题
             # 获取用户信息
             userInfo = self.getApi('Common/activity/getUserInfo','dmRev1PD')
@@ -448,6 +470,49 @@ class getCCB():
         else:
             print('抱歉，该活动已结束')
 
+
+    def doPayCost(self):
+        '''
+        龙支付越花越赚每日领奖
+        '''
+        print('\n开始领取龙支付越花越赚奖励')
+        # 获取openID
+        headers = {
+            'authority': 'jxjkhd.kerlala.com',
+            'user-agent': self.ua,
+            'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
+        }
+        params = (
+            ('url', 'https://event.ccbft.com/ccbact/m3007/AP010202102041005765-act.html?CCB_Chnl=6000210'),
+        )
+        oauthResult = requests.get('https://fission-events.ccbft.com/oauth/carry/91/CCBFFGY001', headers=headers, params=params, cookies=self.cookies, allow_redirects=False)
+        if oauthResult.status_code == 302:
+            self.location = oauthResult.headers['Location']
+            kerlalaOpenid = re.findall('openid=([a-z0-9\-]*)',self.location)[0]
+        else:
+            return False
+
+        # 获取活动及用户信息
+        activityDetail = self.payCostApi('queryActivityDetail',(('kerlalaOpenid', kerlalaOpenid),))
+        if (int(round(time.time()*1000))) < activityDetail['data']['endTime']:
+            if 'userInfo' in activityDetail['data']:
+                signsInfo = activityDetail['data']['userInfo']['signs']
+                for i in range(len(signsInfo)):
+                    if signsInfo[i]['received'] == 0:
+                        print('第{}天奖励可领取'.format(signsInfo[i]['continueDays']))
+                        date = signsInfo[i]['signInDate']
+                        userId = activityDetail['data']['userInfo']['userId']
+                        taskId = activityDetail['data']['tasks'][0]['taskId']
+                        awardResult = self.payCostApi('activityRedeemPoint',(('userId', userId),('taskId', taskId),('date', date),))
+                        print(awardResult)
+                    else:
+                        print('第{}天暂无奖励可领取'.format(signsInfo[i]['continueDays']))
+            else:
+                print('未报名，请前往活动主页报名')
+        else:
+            print('抱歉，该活动已结束')
+        
+
     def main(self):
         try:
             # 主会场活动
@@ -464,6 +529,8 @@ class getCCB():
             self.mothersDayTask()
             # 学外汇 得实惠活动
             self.doWhcanswer()
+            # 越花越赚领奖
+            self.doPayCost()
         except Exception as e:
             print(e)
     
