@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.3.2
-# UpdateDate: 2020-05-06 19:58
-# UpdateLog: 打印脚本开始及结束执行时间
+# Version: 0.4.1
+# UpdateDate: 2020-05-08 10:28
+# UpdateLog: 新增学外汇得实惠答题及抽奖
 
 import requests
 import json
@@ -15,10 +15,11 @@ import random
 class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
-        self.commonShareCode = ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"] + shareCode['common']
+        self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.currentTime = int(time.time())
+        self.questionFilePath = rootDir + '/questions.json'
 
     def getApi(self,functionId,activityId='lPYNjdmN',params=()):
         '''
@@ -376,6 +377,77 @@ class getCCB():
             print('抱歉，该活动已结束')
 
 
+    def doWhcanswer(self):
+        '''
+        学外汇 得实惠活动
+        '''
+        print('\n开始做 学外汇 得实惠 活动')
+        # 读取题库
+        if os.path.exists(self.questionFilePath):
+            with open(self.questionFilePath,encoding='UTF-8') as fp:
+                questionDict = json.load(fp)
+        else:
+            print('题库不存在，请下载完整题库')
+            return False
+        # 读取活动信息
+        activityInfo = self.getApi('Common/activity/getActivityInfo','dmRev1PD')
+        if self.currentTime < activityInfo['data']['end_time']:
+            # 答题
+            # 获取用户信息
+            userInfo = self.getApi('Common/activity/getUserInfo','dmRev1PD')
+            ident = userInfo['data']['ident']
+            userDataInfo = self.getApi('activity/whcanswer/getUserDataInfo','dmRev1PD')
+            if userDataInfo['data']['remain_num'] > 0:
+                print('今日剩余{}次答题机会'.format(userDataInfo['data']['remain_num']))
+                for num in range(userDataInfo['data']['remain_num']):
+                    print('\n开始第{}轮答题'.format(num+1))
+                    # 使用答题机会
+                    self.getApi('activity/whcanswer/reduceNum','dmRev1PD')
+                    # 获取题目
+                    questionInfo = self.postApi('activity/whcanswer/getQuestion','{levelId: 1}','dmRev1PD')
+                    # 查询正确答案ID
+                    rightOptionsId = []
+                    for questionId in questionInfo['data']['question_id']:
+                        rightOptionsId.append(questionDict[str(questionId)]['rightOptionId'])
+                    print(rightOptionsId)
+                    # 获取正确答案位序
+                    rightOptionsNum = []
+                    for i in range(len(questionInfo['data']['all_question'])):
+                        for j in range(len(questionInfo['data']['all_question'][i]['option'])):
+                            if questionInfo['data']['all_question'][i]['option'][j]['id'] == rightOptionsId[i]:
+                                rightOptionsNum.append(j+1)
+                                break
+                    print(rightOptionsNum)
+                    # 开始答题
+                    for i in range(len(questionInfo['data']['all_question'])):
+                        print('问题{}：{}'.format(i+1,questionInfo['data']['all_question'][i]['question']['title']))
+                        for j in range(len(questionInfo['data']['all_question'][i]['option'])):
+                            print('选项{}：{}'.format(j+1,questionInfo['data']['all_question'][i]['option'][j]['title']))
+                        # 提交答案
+                        print('选择选项{}'.format(rightOptionsNum[i]))
+                        data = '{"levelId": 1, "questionId": ' + str(i+1) + ', "answerId":' + str(rightOptionsNum[i]) + '}'
+                        answerResult = self.postApi('activity/whcanswer/answerQuestion',data,'dmRev1PD')
+                        print('当前得分{}'.format(answerResult['data']['curScore']))
+                        # 休息3秒，防止接口频繁
+                        time.sleep(3)
+            else:
+                print('今日已无答题机会')
+
+            # 抽奖
+            # 获取剩余抽奖次数
+            userDataInfo = self.getApi('activity/whcdraw/getUserDataInfo','lPYNEEmN')
+            if int(userDataInfo['data']['drawUserExt']['remain_num']) > 0:
+                print('今日剩余抽奖次数{}'.format(userDataInfo['data']['drawUserExt']['remain_num']))
+                for i in range(int(userDataInfo['data']['drawUserExt']['remain_num'])):
+                    drawResult = self.getApi('activity/whcdraw/draw','lPYNEEmN')
+                    print(drawResult)
+                    # 休息5秒，防止接口频繁
+                    time.sleep(5)
+            else:
+                print('今日已无抽奖机会')
+        else:
+            print('抱歉，该活动已结束')
+
     def main(self):
         try:
             # 主会场活动
@@ -390,8 +462,10 @@ class getCCB():
             self.dayAnswer()
             # 母亲节晒妈活动
             self.mothersDayTask()
-        except:
-            pass
+            # 学外汇 得实惠活动
+            self.doWhcanswer()
+        except Exception as e:
+            print(e)
     
 def readConfig(configPath):
     with open(configPath,encoding='UTF-8') as fp:
