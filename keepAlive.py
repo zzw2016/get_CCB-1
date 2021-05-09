@@ -42,6 +42,21 @@ def createLog(logDir):
     logger.addHandler(fh)
     return logger
 
+def cleanLog(logDir):
+    logger.info("开始清理日志")
+    cleanNum = 0
+    files = os.listdir(logDir)
+    for file in files:
+        today = time.mktime(time.strptime(time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()),"%Y-%m-%d-%H-%M-%S"))
+        logDate = time.mktime(time.strptime(file.split(".")[0],"%Y-%m-%d-%H-%M-%S"))
+        dayNum = int((int(today) - int(logDate)) / (24 * 60 * 60))
+        if dayNum > 7:
+            os.remove("{}/{}".format(logDir,file))
+            cleanNum += 1
+            logger.info("已删除{}天前日志{}".format(dayNum,file))
+    if cleanNum == 0:
+        logger.info("未检测到过期日志，无需清理！")
+
 rootDir = os.path.dirname(os.path.abspath(__file__))
 configPath = rootDir + "/config.json"
 logDir = rootDir + "/logs/keepAlive/"
@@ -54,3 +69,4 @@ for i in range(len(config['cookie'])):
         logger.info('第{}个账号{}Cookie保活成功'.format(i+1,result['data']['nickname']))
     else:
         logger.error('第{}个账号已失效'.format(i+1))
+cleanLog(logDir)

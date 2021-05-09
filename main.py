@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.7.2
-# UpdateDate: 2020-05-09 15:50
-# UpdateLog: 修改天天抽奖策略
+# Version: 0.7.3
+# UpdateDate: 2020-05-09 16:03
+# UpdateLog: 添加日志定时清理功能（默认7天）
 
 import requests
 import json
@@ -633,6 +633,21 @@ def createLog(logDir):
     logger.addHandler(fh)
     return logger
 
+def cleanLog(logDir):
+    logger.info("开始清理日志")
+    cleanNum = 0
+    files = os.listdir(logDir)
+    for file in files:
+        today = time.mktime(time.strptime(time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()),"%Y-%m-%d-%H-%M-%S"))
+        logDate = time.mktime(time.strptime(file.split(".")[0],"%Y-%m-%d-%H-%M-%S"))
+        dayNum = int((int(today) - int(logDate)) / (24 * 60 * 60))
+        if dayNum > 7:
+            os.remove("{}/{}".format(logDir,file))
+            cleanNum += 1
+            logger.info("已删除{}天前日志{}".format(dayNum,file))
+    if cleanNum == 0:
+        logger.info("未检测到过期日志，无需清理！")
+
 if __name__ == '__main__':
     rootDir = os.path.dirname(os.path.abspath(__file__))
     configPath = rootDir + "/config.json"
@@ -648,3 +663,4 @@ if __name__ == '__main__':
         logger.info('')
         logger.info('')
         logger.info('')
+    cleanLog(logDir)
