@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.6.3
-# UpdateDate: 2020-05-09 14:50
-# UpdateLog: 完善读取配置文件逻辑
+# Version: 0.6.4
+# UpdateDate: 2020-05-09 14:53
+# UpdateLog: fix
 
 import requests
 import json
@@ -605,10 +605,10 @@ def readConfig(configPath):
                 return config
             except:
                 print('读取配置文件失败，请检查配置文件是否符合json语法')
-                sys.exit(0)
+                sys.exit(1)
     else:
         print('配置文件不存在，请复制模板文件config.sample.json为config.json')
-        sys.exit(0)
+        sys.exit(2)
 
 
 if __name__ == '__main__':
