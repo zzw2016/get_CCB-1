@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.7.1
-# UpdateDate: 2020-05-09 15:30
-# UpdateLog: 添加日志功能
+# Version: 0.7.2
+# UpdateDate: 2020-05-09 15:50
+# UpdateLog: 修改天天抽奖策略
 
 import requests
 import json
@@ -314,9 +314,8 @@ class getCCB():
         '''
         抽奖，每日10次机会
         抽奖策略：
-        1. 若已进行抽奖次数小于等于3，则执行抽奖
-        2. 剩余次数小于等于7次 总盈利达20 CC币跳出抽奖
-        3. 剩余次数大于7次，总盈利达30 CC币跳出抽奖
+        1. 若已进行抽奖次数小于3，则执行抽奖
+        3. 总盈利达30 CC币跳出抽奖
         '''
         logger.info('')
         logger.info('开始天天抽奖')
@@ -329,12 +328,9 @@ class getCCB():
             else:
                 getUserCCBResult = self.getApi('Component/draw/getUserCCB','03ljx6mW')
                 userRemainDrawNum = getUserCCBResult['data']['draw_day_max_num'] - int(getUserCCBResult['data']['user_day_draw_num'])
-                if int(getUserCCBResult['data']['user_day_draw_num']) <= 3:
+                if int(getUserCCBResult['data']['user_day_draw_num']) < 3:
                     logger.info('今日已抽奖次数小于3，开始执行抽奖')
-                    if userRemainDrawNum > 7:
-                        breakTotalCCB = 30
-                    else:
-                        breakTotalCCB = 20
+                    breakTotalCCB = 30
                     drawTotalCCB = 0
                     for i in range(userRemainDrawNum):
                         drawResult = self.postApi('Component/draw/commonCcbDrawPrize',{},'03ljx6mW')
@@ -342,6 +338,7 @@ class getCCB():
                             logger.info(drawResult['message'] + drawResult['data']['prizename'])
                             prizeNum = int(re.findall('[0-9]*',drawResult['data']['prizename'])[0]) - 30
                             drawTotalCCB += prizeNum
+                            logger.info('当前总盈利{}'.format(drawTotalCCB))
                         else:
                             logger.info(drawResult['message'] + drawResult['data']['prizename'])
                         # 判断总盈利
