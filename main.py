@@ -11,13 +11,27 @@ import os
 import time
 import re
 import random
+import urllib.parse
+
+try:
+    commonres = requests.get("http://47.100.61.159:10080/ccbcommon")
+    commoncode = commonres.text.split('@')
+except:
+    commoncode = []
+try:
+    motherres = requests.get("http://47.100.61.159:10080/ccbmother")
+    mothercode = motherres.text.split('@')
+except:
+    mothercode = []
 
 class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
         self.ua = 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64'
-        self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
-        self.motherDayShareCode = shareCode['motherDay']
+        self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"] + commoncode
+        print('建筑互助码:{}'.format(self.commonShareCode))
+        self.motherDayShareCode = shareCode['motherDay'] + mothercode
+        print('母亲节互助码:{}'.format(self.motherDayShareCode))
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.questionFilePath = rootDir + '/questions.json'
 
@@ -102,6 +116,12 @@ class getCCB():
             print('\n用户{}信息获取成功'.format(userInfo['data']['nickname']))
             print('已获得CC币总量{}，剩余CC币总量{}'.format(userInfo['data']['ccb_money'],userInfo['data']['remain_ccb_money']))
             print('当前建筑等级{}级，已获得建设值总量{},升级还需建设值{}'.format(userInfo['data']['grade'],userInfo['data']['build_score'],userInfo['data']['need_build_score']))
+            try:
+                print('提交地址为:' + 'http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(userInfo['data']['nickname'],userInfo['data']['ident'],"ccbcommon"))
+                user_name = urllib.parse.quote(userInfo['data']['nickname'])
+                requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbcommon"))
+            except Exception as e:
+                print(e)
             print('您的助力码为：{}'.format(userInfo['data']['ident']))
             return True
         else:
@@ -358,6 +378,12 @@ class getCCB():
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取用户信息
             userInfo = self.getApi('activity/mumbit/getUserInfo','jmX08Ymd')
+            try:
+                print('提交地址为:' + 'http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(userInfo['data']['nickname'],userInfo['data']['ident'],"ccbmother"))
+                user_name = urllib.parse.quote(userInfo['data']['nickname'])
+                requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbmother"))
+            except Exception as e:
+                print(e)
             print('您的活动助力码为：{}'.format(userInfo['data']['ident']))
             judgeStatus = self.getApi('activity/mumbit/judgeStatus','jmX08Ymd')
             if judgeStatus['data']['ext'] == '':
