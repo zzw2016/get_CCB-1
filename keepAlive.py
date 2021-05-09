@@ -21,10 +21,10 @@ def readConfig(configPath):
                 config = json.load(fp)
                 return config
             except:
-                logger.error('读取配置文件失败，请检查配置文件是否符合json语法')
+                print('读取配置文件失败，请检查配置文件是否符合json语法')
                 sys.exit(1)
     else:
-        logger.error('配置文件不存在，请复制模板文件config.sample.json为config.json')
+        print('配置文件不存在，请复制模板文件config.sample.json为config.json')
         sys.exit(2)
 
 def createLog(logDir):
