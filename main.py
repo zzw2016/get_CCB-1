@@ -1,13 +1,14 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.6.2
-# UpdateDate: 2020-05-09 14:30
-# UpdateLog: 将获取云端助力码封装为函数
+# Version: 0.6.3
+# UpdateDate: 2020-05-09 14:50
+# UpdateLog: 完善读取配置文件逻辑
 
 import requests
 import json
 import os
+import sys
 import time
 import re
 import random
@@ -597,9 +598,18 @@ class getCCB():
             print(e)
     
 def readConfig(configPath):
-    with open(configPath,encoding='UTF-8') as fp:
-        config = json.load(fp)
-    return config
+    if os.path.exists(configPath):
+        with open(configPath,encoding='UTF-8') as fp:
+            try:
+                config = json.load(fp)
+                return config
+            except:
+                print('读取配置文件失败，请检查配置文件是否符合json语法')
+                sys.exit(0)
+    else:
+        print('配置文件不存在，请复制模板文件config.sample.json为config.json')
+        sys.exit(0)
+
 
 if __name__ == '__main__':
     print('脚本执行开始时间' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
