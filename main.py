@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.5.1
-# UpdateDate: 2020-05-08 22:36
-# UpdateLog: 新增越花越赚活动每日领奖
+# Version: 0.6.2
+# UpdateDate: 2020-05-09 14:30
+# UpdateLog: 将获取云端助力码封装为函数
 
 import requests
 import json
@@ -13,27 +13,15 @@ import re
 import random
 import urllib.parse
 
-try:
-    commonres = requests.get("http://47.100.61.159:10080/ccbcommon")
-    commoncode = commonres.text.split('@')
-except:
-    commoncode = []
-try:
-    motherres = requests.get("http://47.100.61.159:10080/ccbmother")
-    mothercode = motherres.text.split('@')
-except:
-    mothercode = []
-
 class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
         self.ua = 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64'
-        self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"] + commoncode
-        print('建筑互助码:{}'.format(self.commonShareCode))
-        self.motherDayShareCode = shareCode['motherDay'] + mothercode
-        print('母亲节互助码:{}'.format(self.motherDayShareCode))
+        self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
+        self.motherDayShareCode = shareCode['motherDay']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.questionFilePath = rootDir + '/questions.json'
+
 
     def getApi(self,functionId,activityId='lPYNjdmN',params=()):
         '''
@@ -84,6 +72,7 @@ class getCCB():
             r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
             return r.json()
 
+
     def payCostApi(self,functionId,params):
         '''
         越花越赚活动GET请求接口
@@ -107,6 +96,7 @@ class getCCB():
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             return r.json()
 
+
     def getUserInfo(self):
         '''
             获取账户信息
@@ -116,13 +106,16 @@ class getCCB():
             print('\n用户{}信息获取成功'.format(userInfo['data']['nickname']))
             print('已获得CC币总量{}，剩余CC币总量{}'.format(userInfo['data']['ccb_money'],userInfo['data']['remain_ccb_money']))
             print('当前建筑等级{}级，已获得建设值总量{},升级还需建设值{}'.format(userInfo['data']['grade'],userInfo['data']['build_score'],userInfo['data']['need_build_score']))
+            print('您的助力码为：{}'.format(userInfo['data']['ident']))
             try:
-                print('提交地址为:' + 'http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(userInfo['data']['nickname'],userInfo['data']['ident'],"ccbcommon"))
                 user_name = urllib.parse.quote(userInfo['data']['nickname'])
-                requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbcommon"))
+                addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbcommon"))
+                if addCodeResult.status_code == 200:
+                    print('提交云端助力池成功')
+                else:
+                    print('提交云端助力池失败')
             except Exception as e:
                 print(e)
-            print('您的助力码为：{}'.format(userInfo['data']['ident']))
             return True
         else:
             return False
@@ -197,11 +190,28 @@ class getCCB():
         else:
             print('抱歉，该活动已结束')
 
+    def getCommonCode(self):
+        '''
+        获取主会场互助码
+        '''
+        try:
+            commonres = requests.get("http://47.100.61.159:10080/ccbcommon")
+            if commonres.status_code == 200:
+                commoncode = commonres.text.split('@')
+                print('从云端拉取到{}个互助码{}'.format(len(commoncode),commoncode))
+            else:
+                commoncode = []
+        except:
+            commoncode = []
+        self.commonShareCode += commoncode
+
     def doHelp(self):
         '''
         助力任务
         '''
         print('\n开始助力好友')
+        # 拉取云端助力码
+        self.getCommonCode()
         if len(self.commonShareCode) == 0:
             print('未提供任何助力码')
         else:
@@ -378,13 +388,16 @@ class getCCB():
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取用户信息
             userInfo = self.getApi('activity/mumbit/getUserInfo','jmX08Ymd')
+            print('您的活动助力码为：{}'.format(userInfo['data']['ident']))
             try:
-                print('提交地址为:' + 'http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(userInfo['data']['nickname'],userInfo['data']['ident'],"ccbmother"))
                 user_name = urllib.parse.quote(userInfo['data']['nickname'])
-                requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbmother"))
+                addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbmother"))
+                if addCodeResult.status_code == 200:
+                    print('提交云端助力池成功')
+                else:
+                    print('提交云端助力池失败')
             except Exception as e:
                 print(e)
-            print('您的活动助力码为：{}'.format(userInfo['data']['ident']))
             judgeStatus = self.getApi('activity/mumbit/judgeStatus','jmX08Ymd')
             if judgeStatus['data']['ext'] == '':
                 print('您从未参加该活动，开始初始化活动')
@@ -407,8 +420,12 @@ class getCCB():
 
             # 助力好友
             print('开始助力好友')
+            # 拉取云端助力码
+            self.getMothercode()
             if len(self.motherDayShareCode) == 0:
                 print('未发现任何助力码')
+            else:
+                print('您提供了{}个好友助力码'.format(len(self.motherDayShareCode)))
             for i in range(len(self.motherDayShareCode)):
                 userLaunchInfo = self.getApi('activity/mumbit/getUserLaunchInfo','jmX08Ymd',(('share_ident', self.motherDayShareCode[i]),))
                 if userLaunchInfo['code'] == 2101:
@@ -419,10 +436,29 @@ class getCCB():
                     data = '{"launch_id":"' + str(launchId) +'","share_ident":"' + self.motherDayShareCode[i] + '"}'
                     doUserHelpResult = self.postApi('activity/mumbit/doUserHelp',data,'jmX08Ymd')
                     print('助力好友{}结果：{}'.format(friendName,doUserHelpResult['message']))
+                    if doUserHelpResult['message'] == '抱歉已达帮助上限':
+                        print('助力次数已达上限，跳出助力')
+                        break
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
         else:
             print('抱歉，该活动已结束')
+  
+
+    def getMothercode(self):
+        '''
+        获取母亲节互助码
+        '''
+        try:
+            motherres = requests.get("http://47.100.61.159:10080/ccbmother")
+            if motherres.status_code == 200:
+                mothercode = motherres.text.split('@')
+                print('从云端拉取到{}个互助码{}'.format(len(mothercode),mothercode))
+            else:
+                mothercode = []
+        except:
+            mothercode = []
+        self.motherDayShareCode += mothercode
 
 
     def doWhcanswer(self):
