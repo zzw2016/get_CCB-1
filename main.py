@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.6.4
-# UpdateDate: 2020-05-09 14:53
-# UpdateLog: fix
+# Version: 0.7.1
+# UpdateDate: 2020-05-09 15:30
+# UpdateLog: 添加日志功能
 
 import requests
 import json
@@ -13,6 +13,7 @@ import time
 import re
 import random
 import urllib.parse
+import logging
 
 class getCCB():
     def __init__(self,cookies,shareCode):
@@ -41,7 +42,7 @@ class getCCB():
             else:
                 return r.json()
         except:
-            print('调用接口失败，等待10秒重试')
+            logger.error('调用接口失败，等待10秒重试')
             time.sleep(10)
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             return r.json()
@@ -63,12 +64,12 @@ class getCCB():
         try:
             r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
             if re.findall('DOCTYPE',r.text):
-                print('Cookie已失效，请更新Cookie')
+                logger.error('Cookie已失效，请更新Cookie')
                 return False
             else:
                 return r.json()
         except:
-            print('调用接口失败，等待10秒重试')
+            logger.error('调用接口失败，等待10秒重试')
             time.sleep(10)
             r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
             return r.json()
@@ -92,7 +93,7 @@ class getCCB():
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             return r.json()
         except:
-            print('调用接口失败，等待10秒重试')
+            logger.error('调用接口失败，等待10秒重试')
             time.sleep(10)
             r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
             return r.json()
@@ -104,19 +105,19 @@ class getCCB():
         '''
         userInfo = self.getApi('activity/fbtopic/userInfo')
         if userInfo != False:
-            print('\n用户{}信息获取成功'.format(userInfo['data']['nickname']))
-            print('已获得CC币总量{}，剩余CC币总量{}'.format(userInfo['data']['ccb_money'],userInfo['data']['remain_ccb_money']))
-            print('当前建筑等级{}级，已获得建设值总量{},升级还需建设值{}'.format(userInfo['data']['grade'],userInfo['data']['build_score'],userInfo['data']['need_build_score']))
-            print('您的助力码为：{}'.format(userInfo['data']['ident']))
+            logger.info('用户{}信息获取成功'.format(userInfo['data']['nickname']))
+            logger.info('已获得CC币总量{}，剩余CC币总量{}'.format(userInfo['data']['ccb_money'],userInfo['data']['remain_ccb_money']))
+            logger.info('当前建筑等级{}级，已获得建设值总量{},升级还需建设值{}'.format(userInfo['data']['grade'],userInfo['data']['build_score'],userInfo['data']['need_build_score']))
+            logger.info('您的助力码为：{}'.format(userInfo['data']['ident']))
             try:
                 user_name = urllib.parse.quote(userInfo['data']['nickname'])
                 addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbcommon"))
                 if addCodeResult.status_code == 200:
-                    print('提交云端助力池成功')
+                    logger.info('提交云端助力池成功')
                 else:
-                    print('提交云端助力池失败')
+                    logger.error('提交云端助力池失败')
             except Exception as e:
-                print(e)
+                logger.error(e)
             return True
         else:
             return False
@@ -132,45 +133,46 @@ class getCCB():
             data = '{"id":"' + str(ccbList['data'][i]['task_id']) + '","result_id": "' + str(ccbList['data'][i]['id']) + '"}'
             if ccbList['data'][i]['type'] == 'dailyCcb':
                 acceptCcbResult = self.postApi('activity/fbtopic/acceptCcb',data)
-                print('领取{}个每日CCB成功'.format(ccbList['data'][i]['ccb_num']))
+                logger.info('领取{}个每日CCB成功'.format(ccbList['data'][i]['ccb_num']))
             elif ccbList['data'][i]['type'] == 'task':
                 acceptCcbResult = self.postApi('Component/task/draw',data)
-                print('领取{}建设值成功'.format(ccbList['data'][i]['ccb_num']))
+                logger.info('领取{}建设值成功'.format(ccbList['data'][i]['ccb_num']))
 
 
     def doTask(self):
         '''
         主会场完成任务
         '''
-        print('\n开始做日常任务')
+        logger.info('')
+        logger.info('开始做日常任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取任务列表
             taskList = self.getApi('Component/task/lists')
-            print('共获取到{}个任务'.format(len(taskList['data']['task'])))
+            logger.info('共获取到{}个任务'.format(len(taskList['data']['task'])))
             for i in range(len(taskList['data']['task'])):
-                print('\n开始做任务{}【{}】'.format(i+1,taskList['data']['task'][i]['show_set']['name']))
+                logger.info('开始做任务{}【{}】'.format(i+1,taskList['data']['task'][i]['show_set']['name']))
                 # 判断任务状态
                 if taskList['data']['userTask'][i]['finish'] ==1:
-                    print('该任务已完成，无需重复执行')
+                    logger.info('该任务已完成，无需重复执行')
                     # 领取邀请任务奖励
                     if taskList['data']['task'][i]['type'] == 'share':
                         data = '{"id":"' + taskList['data']['task'][i]['id'] + '"}'
                         acceptResult = self.postApi('Component/task/draw',data)
-                        print(acceptResult['message'])
+                        logger.info(acceptResult['message'])
                 else:
                     # 判断任务类型
                     if taskList['data']['task'][i]['type'] == 'visit' or taskList['data']['task'][i]['type'] == 'other':
                         # 浏览类型任务
                         data = '{"id": "' + taskList['data']['task'][i]['id'] + '"}'
                         doTaskResult = self.postApi('Component/task/do',data)
-                        print(doTaskResult['message'])
+                        logger.info(doTaskResult['message'])
                     elif taskList['data']['task'][i]['type'] == 'signin':
                         # 签到任务
                         signinResult = self.postApi('activity/autographnew/qdEvery',{},'5Z9WJoPK')
-                        print(signinResult['message'])
+                        logger.info(signinResult['message'])
                         if signinResult['status'] == 'success':
-                            print('获得{}'.format(signinResult['data']['prize_name']))
+                            logger.info('获得{}'.format(signinResult['data']['prize_name']))
                     elif taskList['data']['task'][i]['type'] == 'share':
                         pass
                     # 领取奖励
@@ -181,7 +183,7 @@ class getCCB():
                         # 按钮类型奖励
                         data = '{"id":"' + taskList['data']['task'][i]['id'] + '"}'
                         acceptResult = self.postApi('Component/task/draw',data)
-                        print(acceptResult['message'])
+                        logger.info(acceptResult['message'])
                     # 休息五秒，防止接口提示频繁 
                     time.sleep(5)
             # 助力好友
@@ -189,7 +191,7 @@ class getCCB():
             # 升级建筑
             self.buildingUp()
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
 
     def getCommonCode(self):
         '''
@@ -199,7 +201,7 @@ class getCCB():
             commonres = requests.get("http://47.100.61.159:10080/ccbcommon")
             if commonres.status_code == 200:
                 commoncode = commonres.text.split('@')
-                print('从云端拉取到{}个互助码{}'.format(len(commoncode),commoncode))
+                logger.info('从云端拉取到{}个互助码{}'.format(len(commoncode),commoncode))
             else:
                 commoncode = []
         except:
@@ -210,15 +212,16 @@ class getCCB():
         '''
         助力任务
         '''
-        print('\n开始助力好友')
+        logger.info('')
+        logger.info('开始助力好友')
         # 拉取云端助力码
         self.getCommonCode()
         if len(self.commonShareCode) == 0:
-            print('未提供任何助力码')
+            logger.info('未提供任何助力码')
         else:
-            print('您提供了{}个好友助力码'.format(len(self.commonShareCode)))
+            logger.info('您提供了{}个好友助力码'.format(len(self.commonShareCode)))
         for i in range(len(self.commonShareCode)):
-            print('开始助力好友{}'.format(i+1))
+            logger.info('开始助力好友{}'.format(i+1))
             self.getApi('a','lPYNjdmN',(('u', self.commonShareCode[i]),))
             time.sleep(2)
 
@@ -226,82 +229,85 @@ class getCCB():
         '''
         升级建筑
         '''
-        print('\n开始升级建筑')
+        logger.info('')
+        logger.info('开始升级建筑')
         userInfo = self.getApi('activity/fbtopic/userInfo')
         if userInfo['data']['remainder_build_score'] >= userInfo['data']['next_grade_build_score']:
             buildingUpResult = self.postApi('activity/fbtopic/buildingUp',{})
             if len(buildingUpResult['data']['up_awards']['up_awards']) > 0:
                 upAwardsName = buildingUpResult['data']['up_awards']['up_awards'][0]['name']
-                print('升级{}成功，获得奖励{}'.format(buildingUpResult['data']['up_building']['name'],upAwardsName))
+                logger.info('升级{}成功，获得奖励{}'.format(buildingUpResult['data']['up_building']['name'],upAwardsName))
             else:
-                print('升级{}成功，无奖励'.format(buildingUpResult['data']['up_building']['name']))
+                logger.info('升级{}成功，无奖励'.format(buildingUpResult['data']['up_building']['name']))
             # 继续检查是否能升级
             time.sleep(5)
             self.buildingUp()
         else:
-            print('建设值不足,距下一等级还需{}建设值'.format(userInfo['data']['need_build_score']))
+            logger.info('建设值不足,距下一等级还需{}建设值'.format(userInfo['data']['need_build_score']))
 
 
     def doSubvenueTask(self):
         '''
         分会场 龙支付优惠集锦
         '''
-        print('\n开始做龙支付分会场任务')
+        logger.info('')
+        logger.info('开始做龙支付分会场任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo','5Z9WxaPK')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取任务列表
             taskList = self.getApi('activity/lzfsubvenue/getIndicatorList','5Z9WxaPK')
-            print('共获取到{}个任务'.format(len(taskList['data']['task'])))
+            logger.info('共获取到{}个任务'.format(len(taskList['data']['task'])))
             for i in range(len(taskList['data']['task'])):
-                print('\n开始做任务【{}】'.format(taskList['data']['task'][i]['indicator']['show_name']))
+                logger.info('开始做任务【{}】'.format(taskList['data']['task'][i]['indicator']['show_name']))
                 if taskList['data']['task'][i]['day_complete'] == 1:
-                    print('该任务今日已完成，无需重复执行')
+                    logger.info('该任务今日已完成，无需重复执行')
                 elif taskList['data']['task'][i]['day_complete'] == 0:
                     data = '{"code": "' + taskList['data']['task'][i]['indicator']['code'] + '"}'
                     doTaskResult = self.postApi('activity/lzfsubvenue/visit',data,'5Z9WxaPK')
-                    print(doTaskResult)
+                    logger.info(doTaskResult)
                     if doTaskResult['message'] == 'ok':
-                        print('任务完成，获得5CC币')
+                        logger.info('任务完成，获得5CC币')
                     time.sleep(5)
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
 
 
     def doCarTask(self):
         '''
             车主分会场做任务、抽奖
         '''
-        print('\n开始做车主分会场任务')
+        logger.info('')
+        logger.info('开始做车主分会场任务')
         activityInfo = self.getApi('Common/activity/getActivityInfo','dmRe4rPD')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 访问首页，获得三次抽奖机会
             self.getApi('a','dmRe4rPD/parallelsessions_v1/index',(('CCB_Chnl', '6000213'),))
             # 获取任务列表
             taskList = self.getApi('activity/parallelsessions/getIndicatorList','dmRe4rPD')
-            print('共获取到{}个任务'.format(len(taskList['data']['task'])))
+            logger.info('共获取到{}个任务'.format(len(taskList['data']['task'])))
             for i in range(len(taskList['data']['task'])):
-                print('\n开始做任务【{}】'.format(taskList['data']['task'][i]['indicator']['show_name']))
+                logger.info('开始做任务【{}】'.format(taskList['data']['task'][i]['indicator']['show_name']))
                 if taskList['data']['task'][i]['day_complete'] == 1:
-                    print('该任务今日已完成，无需重复执行')
+                    logger.info('该任务今日已完成，无需重复执行')
                 elif taskList['data']['task'][i]['day_complete'] == 0:
                     data = '{"code": "' + taskList['data']['task'][i]['indicator']['code'] + '"}'
                     doTaskResult = self.postApi('activity/parallelsessions/visit',data,'dmRe4rPD')
-                    print(doTaskResult['message'])
+                    logger.info(doTaskResult['message'])
             # 获取抽奖次数
             carIndexInfo = self.getApi('activity/parallelsessions/index','dmRe4rPD')
-            print('车主分会场剩余抽奖次数{}'.format(carIndexInfo['data']['remain_num']))
+            logger.info('车主分会场剩余抽奖次数{}'.format(carIndexInfo['data']['remain_num']))
             # 抽奖
             if int(carIndexInfo['data']['remain_num']) > 0:
                 for i in range(int(carIndexInfo['data']['remain_num'])):
                     drawResult = self.postApi('activity/parallelsessions/draw',{},'dmRe4rPD')
                     if drawResult['status'] == 'success':
-                        print(drawResult['data']['prizename'])
+                        logger.info(drawResult['data']['prizename'])
                     else:
-                        print(drawResult['message'])
+                        logger.info(drawResult['message'])
                     # 休息四秒，防止接口频繁
                     time.sleep(4)
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
 
 
     def draw(self):
@@ -312,18 +318,19 @@ class getCCB():
         2. 剩余次数小于等于7次 总盈利达20 CC币跳出抽奖
         3. 剩余次数大于7次，总盈利达30 CC币跳出抽奖
         '''
-        print('\n开始天天抽奖')
+        logger.info('')
+        logger.info('开始天天抽奖')
         activityInfo = self.getApi('Common/activity/getActivityInfo','03ljx6mW')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 检查报名状态
             drawStatus = self.getApi('Component/signup/status','03ljx6mW')
             if drawStatus['status'] == 'fail':
-                print('未报名，请前往天天抽奖进行报名')
+                logger.info('未报名，请前往天天抽奖进行报名')
             else:
                 getUserCCBResult = self.getApi('Component/draw/getUserCCB','03ljx6mW')
                 userRemainDrawNum = getUserCCBResult['data']['draw_day_max_num'] - int(getUserCCBResult['data']['user_day_draw_num'])
                 if int(getUserCCBResult['data']['user_day_draw_num']) <= 3:
-                    print('今日已抽奖次数小于3，开始执行抽奖')
+                    logger.info('今日已抽奖次数小于3，开始执行抽奖')
                     if userRemainDrawNum > 7:
                         breakTotalCCB = 30
                     else:
@@ -332,21 +339,21 @@ class getCCB():
                     for i in range(userRemainDrawNum):
                         drawResult = self.postApi('Component/draw/commonCcbDrawPrize',{},'03ljx6mW')
                         if drawResult['data']['prize_type'] == 'jccb':
-                            print(drawResult['message'] + drawResult['data']['prizename'])
+                            logger.info(drawResult['message'] + drawResult['data']['prizename'])
                             prizeNum = int(re.findall('[0-9]*',drawResult['data']['prizename'])[0]) - 30
                             drawTotalCCB += prizeNum
                         else:
-                            print(drawResult['message'] + drawResult['data']['prizename'])
+                            logger.info(drawResult['message'] + drawResult['data']['prizename'])
                         # 判断总盈利
                         if drawTotalCCB >= breakTotalCCB:
-                            print('本轮抽奖总盈利已达{}CC币，退出抽奖'.format(breakTotalCCB))
+                            logger.info('本轮抽奖总盈利已达{}CC币，退出抽奖'.format(breakTotalCCB))
                             break
                         # 休息5秒，避免接口频繁
                         time.sleep(5)
                 else:
-                    print('今日已进行过{}次抽奖了,若有剩余次数可手动执行'.format(getUserCCBResult['data']['user_day_draw_num']))
+                    logger.info('今日已进行过{}次抽奖了,若有剩余次数可手动执行'.format(getUserCCBResult['data']['user_day_draw_num']))
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
 
 
     def dayAnswer(self):
@@ -354,7 +361,8 @@ class getCCB():
             奋斗学院每日一答
             无论对错，奖励均为10建设值
         '''
-        print('\n开始每日一答')
+        logger.info('')
+        logger.info('开始每日一答')
         activityInfo = self.getApi('Common/activity/getActivityInfo','jmX0aKmd')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取用户答题信息
@@ -364,86 +372,87 @@ class getCCB():
                 question = self.getApi('activity/dopanswer/getQuestion','jmX0aKmd')
                 questionTitle =question['data']['all_question'][0]['question']['title']
                 questionId = question['data']['all_question'][0]['question']['id']
-                print('问：{} id:{}'.format(questionTitle,questionId))
+                logger.info('问：{} id:{}'.format(questionTitle,questionId))
                 for i in range(len(question['data']['all_question'][0]['option'])):
-                    print('选项{}：{}'.format(i+1,question['data']['all_question'][0]['option'][i]['title']))
+                    logger.info('选项{}：{}'.format(i+1,question['data']['all_question'][0]['option'][i]['title']))
                 # 随机答题
                 randomOption = random.randint(1,len(question['data']['all_question'][0]['option']))
-                print('随机选择选项{}'.format(randomOption))
+                logger.info('随机选择选项{}'.format(randomOption))
                 data = '{"answerId":"' + str(randomOption) +'","questionId":"' + str(questionId) + '"}'
                 answerQuestionResult = self.postApi('activity/dopanswer/answerQuestion',data,'jmX0aKmd')
-                print('正确答案：选项{}'.format(answerQuestionResult['data']['right']))
-                print(answerQuestionResult['message'])
+                logger.info('正确答案：选项{}'.format(answerQuestionResult['data']['right']))
+                logger.info(answerQuestionResult['message'])
             else:
-                print('今日答题机会已用尽')
+                logger.info('今日答题机会已用尽')
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
 
 
     def mothersDayTask(self):
         '''
         母亲节晒妈活动
         '''
-        print('\n开始做 母亲节集赞得520CC币 活动')
+        logger.info('')
+        logger.info('开始做 母亲节集赞得520CC币 活动')
         activityInfo = self.getApi('Common/activity/getActivityInfo','jmX08Ymd')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取用户信息
             userInfo = self.getApi('activity/mumbit/getUserInfo','jmX08Ymd')
-            print('您的活动助力码为：{}'.format(userInfo['data']['ident']))
+            logger.info('您的活动助力码为：{}'.format(userInfo['data']['ident']))
             try:
                 user_name = urllib.parse.quote(userInfo['data']['nickname'])
                 addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbmother"))
                 if addCodeResult.status_code == 200:
-                    print('提交云端助力池成功')
+                    logger.info('提交云端助力池成功')
                 else:
-                    print('提交云端助力池失败')
+                    logger.error('提交云端助力池失败')
             except Exception as e:
-                print(e)
+                logger.error(e)
             judgeStatus = self.getApi('activity/mumbit/judgeStatus','jmX08Ymd')
             if judgeStatus['data']['ext'] == '':
-                print('您从未参加该活动，开始初始化活动')
+                logger.info('您从未参加该活动，开始初始化活动')
                  # 设置标签
                 data = '{"ext":"[{\\"title\\":\\"\u89C9\u5F97\u6211\u6C38\u8FDC\u5403\u4E0D\u9971\\",\\"thumbnail_url\\":\\"https://ccbhdimg.kerlala.com/hd/users/10461/20210430/8645701907.png\\",\\"isChoosed\\":true,\\"left\\":\\"0rem\\",\\"top\\":\\"2.6rem\\"}]"}'.encode("utf-8").decode("latin1")
                 updatePhraseResult = self.postApi('activity/mumbit/updatePhrase',data,'jmX08Ymd')
-                print('初始化活动结果：'.format(updatePhraseResult['message']))
+                logger.info('初始化活动结果：'.format(updatePhraseResult['message']))
             userLaunchInfo = self.getApi('activity/mumbit/getUserLaunchInfo','jmX08Ymd',(('share_ident', userInfo['data']['ident']),))
             if userLaunchInfo['code'] == 2101:
                 # 开启分享
                 doUserLaunchResult = self.postApi('activity/mumbit/doUserLaunch',{},'jmX08Ymd',)
-                print('开启分享结果：'.format(doUserLaunchResult['message']))
-            print('当前账号已获赞{}，还需{}个点赞'.format(judgeStatus['data']['help_num'],judgeStatus['data']['need_help_num']))
+                logger.info('开启分享结果：'.format(doUserLaunchResult['message']))
+            logger.info('当前账号已获赞{}，还需{}个点赞'.format(judgeStatus['data']['help_num'],judgeStatus['data']['need_help_num']))
 
             # 领取满助力奖励
             if int(judgeStatus['data']['help_num']) >= 20:
-                print('已达到领奖条件，开始领取奖励')
+                logger.info('已达到领奖条件，开始领取奖励')
                 getRewardResult = self.getApi('activity/mumbit/draw','jmX08Ymd')
-                print(getRewardResult['message'])
+                logger.info(getRewardResult['message'])
 
             # 助力好友
-            print('开始助力好友')
+            logger.info('开始助力好友')
             # 拉取云端助力码
             self.getMothercode()
             if len(self.motherDayShareCode) == 0:
-                print('未发现任何助力码')
+                logger.info('未发现任何助力码')
             else:
-                print('您提供了{}个好友助力码'.format(len(self.motherDayShareCode)))
+                logger.info('您提供了{}个好友助力码'.format(len(self.motherDayShareCode)))
             for i in range(len(self.motherDayShareCode)):
                 userLaunchInfo = self.getApi('activity/mumbit/getUserLaunchInfo','jmX08Ymd',(('share_ident', self.motherDayShareCode[i]),))
                 if userLaunchInfo['code'] == 2101:
-                    print('该好友未开启分享')
+                    logger.info('该好友未开启分享')
                 else:
                     friendName = userLaunchInfo['data']['nickname']
                     launchId = userLaunchInfo['data']['launchId']
                     data = '{"launch_id":"' + str(launchId) +'","share_ident":"' + self.motherDayShareCode[i] + '"}'
                     doUserHelpResult = self.postApi('activity/mumbit/doUserHelp',data,'jmX08Ymd')
-                    print('助力好友{}结果：{}'.format(friendName,doUserHelpResult['message']))
+                    logger.info('助力好友{}结果：{}'.format(friendName,doUserHelpResult['message']))
                     if doUserHelpResult['message'] == '抱歉已达帮助上限':
-                        print('助力次数已达上限，跳出助力')
+                        logger.info('助力次数已达上限，跳出助力')
                         break
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
   
 
     def getMothercode(self):
@@ -454,7 +463,7 @@ class getCCB():
             motherres = requests.get("http://47.100.61.159:10080/ccbmother")
             if motherres.status_code == 200:
                 mothercode = motherres.text.split('@')
-                print('从云端拉取到{}个互助码{}'.format(len(mothercode),mothercode))
+                logger.info('从云端拉取到{}个互助码{}'.format(len(mothercode),mothercode))
             else:
                 mothercode = []
         except:
@@ -466,13 +475,14 @@ class getCCB():
         '''
         学外汇 得实惠活动
         '''
-        print('\n开始做 学外汇 得实惠 活动')
+        logger.info('')
+        logger.info('开始做 学外汇 得实惠 活动')
         # 读取题库
         if os.path.exists(self.questionFilePath):
             with open(self.questionFilePath,encoding='UTF-8') as fp:
                 questionDict = json.load(fp)
         else:
-            print('题库不存在，请下载完整题库')
+            logger.info('题库不存在，请下载完整题库')
             return False
         # 读取活动信息
         activityInfo = self.getApi('Common/activity/getActivityInfo','dmRev1PD')
@@ -483,9 +493,9 @@ class getCCB():
             ident = userInfo['data']['ident']
             userDataInfo = self.getApi('activity/whcanswer/getUserDataInfo','dmRev1PD')
             if userDataInfo['data']['remain_num'] > 0:
-                print('今日剩余{}次答题机会'.format(userDataInfo['data']['remain_num']))
+                logger.info('今日剩余{}次答题机会'.format(userDataInfo['data']['remain_num']))
                 for num in range(userDataInfo['data']['remain_num']):
-                    print('\n开始第{}轮答题'.format(num+1))
+                    logger.info('开始第{}轮答题'.format(num+1))
                     # 使用答题机会
                     self.getApi('activity/whcanswer/reduceNum','dmRev1PD')
                     # 获取题目
@@ -494,7 +504,7 @@ class getCCB():
                     rightOptionsId = []
                     for questionId in questionInfo['data']['question_id']:
                         rightOptionsId.append(questionDict[str(questionId)]['rightOptionId'])
-                    print(rightOptionsId)
+                    logger.info(rightOptionsId)
                     # 获取正确答案位序
                     rightOptionsNum = []
                     for i in range(len(questionInfo['data']['all_question'])):
@@ -502,43 +512,44 @@ class getCCB():
                             if questionInfo['data']['all_question'][i]['option'][j]['id'] == rightOptionsId[i]:
                                 rightOptionsNum.append(j+1)
                                 break
-                    print(rightOptionsNum)
+                    logger.info(rightOptionsNum)
                     # 开始答题
                     for i in range(len(questionInfo['data']['all_question'])):
-                        print('问题{}：{}'.format(i+1,questionInfo['data']['all_question'][i]['question']['title']))
+                        logger.info('问题{}：{}'.format(i+1,questionInfo['data']['all_question'][i]['question']['title']))
                         for j in range(len(questionInfo['data']['all_question'][i]['option'])):
-                            print('选项{}：{}'.format(j+1,questionInfo['data']['all_question'][i]['option'][j]['title']))
+                            logger.info('选项{}：{}'.format(j+1,questionInfo['data']['all_question'][i]['option'][j]['title']))
                         # 提交答案
-                        print('选择选项{}'.format(rightOptionsNum[i]))
+                        logger.info('选择选项{}'.format(rightOptionsNum[i]))
                         data = '{"levelId": 1, "questionId": ' + str(i+1) + ', "answerId":' + str(rightOptionsNum[i]) + '}'
                         answerResult = self.postApi('activity/whcanswer/answerQuestion',data,'dmRev1PD')
-                        print('当前得分{}'.format(answerResult['data']['curScore']))
+                        logger.info('当前得分{}'.format(answerResult['data']['curScore']))
                         # 休息3秒，防止接口频繁
                         time.sleep(3)
             else:
-                print('今日已无答题机会')
+                logger.info('今日已无答题机会')
 
             # 抽奖
             # 获取剩余抽奖次数
             userDataInfo = self.getApi('activity/whcdraw/getUserDataInfo','lPYNEEmN')
             if int(userDataInfo['data']['drawUserExt']['remain_num']) > 0:
-                print('今日剩余抽奖次数{}'.format(userDataInfo['data']['drawUserExt']['remain_num']))
+                logger.info('今日剩余抽奖次数{}'.format(userDataInfo['data']['drawUserExt']['remain_num']))
                 for i in range(int(userDataInfo['data']['drawUserExt']['remain_num'])):
                     drawResult = self.getApi('activity/whcdraw/draw','lPYNEEmN')
-                    print(drawResult)
+                    logger.info(drawResult)
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
             else:
-                print('今日已无抽奖机会')
+                logger.info('今日已无抽奖机会')
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
 
 
     def doPayCost(self):
         '''
         龙支付越花越赚每日领奖
         '''
-        print('\n开始领取龙支付越花越赚奖励')
+        logger.info('')
+        logger.info('开始领取龙支付越花越赚奖励')
         # 获取openID
         headers = {
             'authority': 'jxjkhd.kerlala.com',
@@ -562,18 +573,18 @@ class getCCB():
                 signsInfo = activityDetail['data']['userInfo']['signs']
                 for i in range(len(signsInfo)):
                     if signsInfo[i]['received'] == 0:
-                        print('第{}天奖励可领取'.format(signsInfo[i]['continueDays']))
+                        logger.info('第{}天奖励可领取'.format(signsInfo[i]['continueDays']))
                         date = signsInfo[i]['signInDate']
                         userId = activityDetail['data']['userInfo']['userId']
                         taskId = activityDetail['data']['tasks'][0]['taskId']
                         awardResult = self.payCostApi('activityRedeemPoint',(('userId', userId),('taskId', taskId),('date', date),))
-                        print(awardResult)
+                        logger.info(awardResult)
                     else:
-                        print('第{}天暂无奖励可领取'.format(signsInfo[i]['continueDays']))
+                        logger.info('第{}天暂无奖励可领取'.format(signsInfo[i]['continueDays']))
             else:
-                print('未报名，请前往活动主页报名')
+                logger.info('未报名，请前往活动主页报名')
         else:
-            print('抱歉，该活动已结束')
+            logger.info('抱歉，该活动已结束')
         
 
     def main(self):
@@ -595,7 +606,7 @@ class getCCB():
             # 越花越赚领奖
             self.doPayCost()
         except Exception as e:
-            print(e)
+            logger.error(e)
     
 def readConfig(configPath):
     if os.path.exists(configPath):
@@ -604,22 +615,39 @@ def readConfig(configPath):
                 config = json.load(fp)
                 return config
             except:
-                print('读取配置文件失败，请检查配置文件是否符合json语法')
+                logger.error('读取配置文件失败，请检查配置文件是否符合json语法')
                 sys.exit(1)
     else:
-        print('配置文件不存在，请复制模板文件config.sample.json为config.json')
+        logger.error('配置文件不存在，请复制模板文件config.sample.json为config.json')
         sys.exit(2)
 
+def createLog(logDir):
+    # 日志输出控制台
+    logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
+    # 日志输入文件
+    date = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) 
+    logPath = '{}/{}.log'.format(logDir,date)
+    if not os.path.exists(logDir):
+        logger.warning("未检测到日志目录存在，开始创建logs目录")
+        os.makedirs(logDir)
+    fh = logging.FileHandler(logPath, mode='a', encoding='utf-8')
+    fh.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    logger.addHandler(fh)
+    return logger
 
 if __name__ == '__main__':
-    print('脚本执行开始时间' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     rootDir = os.path.dirname(os.path.abspath(__file__))
     configPath = rootDir + "/config.json"
+    logDir = rootDir + "/logs/main/"
+    logger = createLog(logDir)
     config = readConfig(configPath)
     for i in range(len(config['cookie'])):
         user = getCCB(config['cookie'][i],config['shareCode'])
         if user.getUserInfo():
             user.main()
         else:
-            print('\n账号{}已失效，请及时更新Cookie'.format(i+1))
-    print('脚本执行结束时间' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+            logger.error('账号{}已失效，请及时更新Cookie'.format(i+1))
+        logger.info('')
+        logger.info('')
+        logger.info('')

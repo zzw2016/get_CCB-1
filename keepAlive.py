@@ -1,6 +1,8 @@
 import requests
 import json
 import os
+import logging
+import time
 
 def getUserInfo(cookies):
     headers = {
@@ -13,17 +15,42 @@ def getUserInfo(cookies):
     return r.json()
 
 def readConfig(configPath):
-    with open(configPath,encoding='UTF-8') as fp:
-        config = json.load(fp)
-    return config
+    if os.path.exists(configPath):
+        with open(configPath,encoding='UTF-8') as fp:
+            try:
+                config = json.load(fp)
+                return config
+            except:
+                logger.error('读取配置文件失败，请检查配置文件是否符合json语法')
+                sys.exit(1)
+    else:
+        logger.error('配置文件不存在，请复制模板文件config.sample.json为config.json')
+        sys.exit(2)
+
+def createLog(logDir):
+    # 日志输出控制台
+    logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
+    # 日志输入文件
+    date = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) 
+    logPath = '{}/{}.log'.format(logDir,date)
+    if not os.path.exists(logDir):
+        logger.warning("未检测到日志目录存在，开始创建logs目录")
+        os.makedirs(logDir)
+    fh = logging.FileHandler(logPath, mode='a', encoding='utf-8')
+    fh.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    logger.addHandler(fh)
+    return logger
 
 rootDir = os.path.dirname(os.path.abspath(__file__))
 configPath = rootDir + "/config.json"
+logDir = rootDir + "/logs/keepAlive/"
+logger = createLog(logDir)
 config = readConfig(configPath)
-print('共获取到{}个用户，开始Cookie保活'.format(len(config['cookie'])))
+logger.info('共获取到{}个用户，开始Cookie保活'.format(len(config['cookie'])))
 for i in range(len(config['cookie'])):
     result = getUserInfo(config['cookie'][i])
     if result['status'] == 'success':
-        print('第{}个账号{}Cookie保活成功'.format(i+1,result['data']['nickname']))
+        logger.info('第{}个账号{}Cookie保活成功'.format(i+1,result['data']['nickname']))
     else:
-        print('第{}个账号已失效'.format(i+1))
+        logger.error('第{}个账号已失效'.format(i+1))
