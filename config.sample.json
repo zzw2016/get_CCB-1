@@ -8,5 +8,6 @@
     "shareCode": {
         "common": [],
         "motherDay": []
-    }
+    },
+    "logDir": ""
 }

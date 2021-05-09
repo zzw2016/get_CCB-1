@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.7.3
-# UpdateDate: 2020-05-09 16:03
-# UpdateLog: 添加日志定时清理功能（默认7天）
+# Version: 0.7.4
+# UpdateDate: 2020-05-09 20:57
+# UpdateLog: 支持日志自定义目录，config.json中加入"logDir": ""参数
 
 import requests
 import json
@@ -612,10 +612,10 @@ def readConfig(configPath):
                 config = json.load(fp)
                 return config
             except:
-                logger.error('读取配置文件失败，请检查配置文件是否符合json语法')
+                print('读取配置文件失败，请检查配置文件是否符合json语法')
                 sys.exit(1)
     else:
-        logger.error('配置文件不存在，请复制模板文件config.sample.json为config.json')
+        print('配置文件不存在，请复制模板文件config.sample.json为config.json')
         sys.exit(2)
 
 def createLog(logDir):
@@ -651,9 +651,12 @@ def cleanLog(logDir):
 if __name__ == '__main__':
     rootDir = os.path.dirname(os.path.abspath(__file__))
     configPath = rootDir + "/config.json"
-    logDir = rootDir + "/logs/main/"
-    logger = createLog(logDir)
     config = readConfig(configPath)
+    logDir = rootDir + "/logs/main/"
+    if 'logDir' in config:
+        if config['logDir'] != '':
+            logDir = config['logDir'] + "/ccb_main/"
+    logger = createLog(logDir)
     for i in range(len(config['cookie'])):
         user = getCCB(config['cookie'][i],config['shareCode'])
         if user.getUserInfo():

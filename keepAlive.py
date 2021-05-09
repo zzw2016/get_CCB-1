@@ -59,9 +59,12 @@ def cleanLog(logDir):
 
 rootDir = os.path.dirname(os.path.abspath(__file__))
 configPath = rootDir + "/config.json"
-logDir = rootDir + "/logs/keepAlive/"
-logger = createLog(logDir)
 config = readConfig(configPath)
+logDir = rootDir + "/logs/keepAlive/"
+if 'logDir' in config:
+    if config['logDir'] != '':
+        logDir = config['logDir'] +"/ccb_keepAlive/"
+logger = createLog(logDir)
 logger.info('共获取到{}个用户，开始Cookie保活'.format(len(config['cookie'])))
 for i in range(len(config['cookie'])):
     result = getUserInfo(config['cookie'][i])
