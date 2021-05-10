@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.7.6
-# UpdateDate: 2020-05-10 20:03
-# UpdateLog: 新增消保分会场题库
+# Version: 0.8.1
+# UpdateDate: 2020-05-10 20:45
+# UpdateLog: 新增消保分会场活动答题、抽奖、助力功能
 
 import requests
 import json
@@ -22,6 +22,7 @@ class getCCB():
         self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
         self.whcanswerShareCode = shareCode['whcanswer']
+        self.xbanswerShareCode = shareCode['xbanswer']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.whcanswerFilePath = rootDir + '/whcanswer.json'
         self.xbanswerFilePath = rootDir + '/xbanswer.json'
@@ -103,7 +104,7 @@ class getCCB():
 
     def getUserInfo(self):
         '''
-            获取账户信息
+        获取账户信息
         '''
         userInfo = self.getApi('activity/fbtopic/userInfo')
         if userInfo != False:
@@ -127,7 +128,7 @@ class getCCB():
 
     def acceptCCB(self):
         '''
-            领取每日CCB或建设值
+        领取每日CCB或建设值
         '''
         # 查询可领取的CC币
         ccbList = self.postApi('activity/fbtopic/ccbList',{})
@@ -276,7 +277,7 @@ class getCCB():
 
     def doCarTask(self):
         '''
-            车主分会场做任务、抽奖
+        车主分会场做任务、抽奖
         '''
         logger.info('')
         logger.info('开始做车主分会场任务')
@@ -357,8 +358,8 @@ class getCCB():
 
     def dayAnswer(self):
         '''
-            奋斗学院每日一答
-            无论对错，奖励均为10建设值
+        奋斗学院每日一答
+        无论对错，奖励均为10建设值
         '''
         logger.info('')
         logger.info('开始每日一答')
@@ -472,7 +473,7 @@ class getCCB():
 
     def doWhcanswer(self):
         '''
-        学外汇 得实惠活动
+        学外汇 得实惠活动答题、抽奖、助力
         '''
         logger.info('')
         logger.info('开始做 学外汇 得实惠 活动')
@@ -549,7 +550,95 @@ class getCCB():
             for i in range(len(self.whcanswerShareCode)):
                 logger.info('开始助力好友{}'.format(i+1))
                 self.getApi('a','dmRev1PD',(('u', self.whcanswerShareCode[i]),))
-                time.sleep(2)
+                time.sleep(3)
+        else:
+            logger.info('抱歉，该活动已结束')
+
+
+    def doXbanswer(self):
+        '''
+        消保分会场答题、抽奖、助力
+        '''
+        logger.info('')
+        logger.info('开始做 消保分会场 活动')
+        # 读取题库
+        if os.path.exists(self.xbanswerFilePath):
+            with open(self.xbanswerFilePath,encoding='UTF-8') as fp:
+                questionDict = json.load(fp)
+        else:
+            logger.info('题库不存在，请下载完整题库')
+            return False
+        # 读取活动信息
+        activityInfo = self.getApi('Common/activity/getActivityInfo','03lj14mW')
+        if int(time.time()) < activityInfo['data']['end_time']:
+            # 答题
+            # 获取用户信息
+            userInfo = self.getApi('Common/activity/getUserInfo','03lj14mW')
+            logger.info('您的活动助力码为：{}'.format(userInfo['data']['ident']))
+            userDataInfo = self.getApi('activity/xbanswer/getUserDataInfo','03lj14mW')
+            if userDataInfo['data']['remain_num'] > 0:
+                logger.info('今日剩余{}次答题机会'.format(userDataInfo['data']['remain_num']))
+                for num in range(userDataInfo['data']['remain_num']):
+                    logger.info('开始第{}轮答题'.format(num+1))
+                    # 随机答题等级
+                    levelId = random.randint(1,4)
+                    logger.info('随机选择等级{}题目'.format(levelId))
+                    # 使用答题机会
+                    self.getApi('activity/xbanswer/reduceNum','03lj14mW')
+                    # 获取题目
+                    data = '{"levelId":"' + str(levelId) + '"}'
+                    questionInfo = self.postApi('activity/xbanswer/getQuestion',data,'03lj14mW')
+                    # 查询正确答案ID
+                    rightOptionsId = []
+                    for questionId in questionInfo['data']['question_id']:
+                        rightOptionsId.append(questionDict[str(questionId)]['rightOptionId'])
+                    logger.info(rightOptionsId)
+                    # 获取正确答案位序
+                    rightOptionsNum = []
+                    for i in range(len(questionInfo['data']['all_question'])):
+                        for j in range(len(questionInfo['data']['all_question'][i]['option'])):
+                            if questionInfo['data']['all_question'][i]['option'][j]['id'] == rightOptionsId[i]:
+                                rightOptionsNum.append(j+1)
+                                break
+                    logger.info(rightOptionsNum)
+                    # 开始答题
+                    for i in range(len(questionInfo['data']['all_question'])):
+                        logger.info('问题{}：{}'.format(i+1,questionInfo['data']['all_question'][i]['question']['title']))
+                        for j in range(len(questionInfo['data']['all_question'][i]['option'])):
+                            logger.info('选项{}：{}'.format(j+1,questionInfo['data']['all_question'][i]['option'][j]['title']))
+                        # 提交答案
+                        logger.info('选择选项{}'.format(rightOptionsNum[i]))
+                        data = '{"levelId": ' + str(levelId) + ', "questionId": ' + str(i+1) + ', "answerId":' + str(rightOptionsNum[i]) + '}'
+                        answerResult = self.postApi('activity/xbanswer/answerQuestion',data,'03lj14mW')
+                        logger.info('当前得分{}'.format(answerResult['data']['curScore']))
+                        # 休息5秒，防止接口频繁
+                        time.sleep(5)
+            else:
+                logger.info('今日已无答题机会')
+
+            # 抽奖
+            # 获取剩余抽奖次数
+            userDataInfo = self.getApi('activity/xbdraw/getUserDataInfo','jmX05Qmd')
+            if int(userDataInfo['data']['drawUserExt']['remain_num']) > 0:
+                logger.info('今日剩余抽奖次数{}'.format(userDataInfo['data']['drawUserExt']['remain_num']))
+                for i in range(int(userDataInfo['data']['drawUserExt']['remain_num'])):
+                    drawResult = self.getApi('activity/xbdraw/draw','jmX05Qmd')
+                    logger.info(drawResult)
+                    # 休息5秒，防止接口频繁
+                    time.sleep(5)
+            else:
+                logger.info('今日已无抽奖机会')
+
+            # 助力
+            logger.info('开始助力好友')
+            if len(self.xbanswerShareCode) == 0:
+                logger.info('未提供任何助力码')
+            else:
+                logger.info('您提供了{}个好友助力码'.format(len(self.xbanswerShareCode)))
+            for i in range(len(self.xbanswerShareCode)):
+                logger.info('开始助力好友{}'.format(i+1))
+                self.getApi('a','03lj14mW',(('u', self.xbanswerShareCode[i]),))
+                time.sleep(3)
         else:
             logger.info('抱歉，该活动已结束')
 
@@ -613,6 +702,8 @@ class getCCB():
             self.mothersDayTask()
             # 学外汇 得实惠活动
             self.doWhcanswer()
+            # 消保分会场活动
+            self.doXbanswer()
             # 越花越赚领奖
             self.doPayCost()
         except Exception as e:
