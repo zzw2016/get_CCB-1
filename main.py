@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.7.4
-# UpdateDate: 2020-05-09 20:57
-# UpdateLog: 支持日志自定义目录，config.json中加入"logDir": ""参数
+# Version: 0.7.5
+# UpdateDate: 2020-05-10 15:15
+# UpdateLog: 新增学外汇得实惠活动助力功能
 
 import requests
 import json
@@ -21,6 +21,7 @@ class getCCB():
         self.ua = 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64'
         self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
+        self.whcanswerShareCode = shareCode['whcanswer']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.questionFilePath = rootDir + '/questions.json'
 
@@ -487,7 +488,7 @@ class getCCB():
             # 答题
             # 获取用户信息
             userInfo = self.getApi('Common/activity/getUserInfo','dmRev1PD')
-            ident = userInfo['data']['ident']
+            logger.info('您的活动助力码为：{}'.format(userInfo['data']['ident']))
             userDataInfo = self.getApi('activity/whcanswer/getUserDataInfo','dmRev1PD')
             if userDataInfo['data']['remain_num'] > 0:
                 logger.info('今日剩余{}次答题机会'.format(userDataInfo['data']['remain_num']))
@@ -537,6 +538,17 @@ class getCCB():
                     time.sleep(5)
             else:
                 logger.info('今日已无抽奖机会')
+
+            # 助力
+            logger.info('开始助力好友')
+            if len(self.whcanswerShareCode) == 0:
+                logger.info('未提供任何助力码')
+            else:
+                logger.info('您提供了{}个好友助力码'.format(len(self.whcanswerShareCode)))
+            for i in range(len(self.whcanswerShareCode)):
+                logger.info('开始助力好友{}'.format(i+1))
+                self.getApi('a','dmRev1PD',(('u', self.whcanswerShareCode[i]),))
+                time.sleep(2)
         else:
             logger.info('抱歉，该活动已结束')
 
