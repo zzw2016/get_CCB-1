@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.7.5
-# UpdateDate: 2020-05-10 15:15
-# UpdateLog: 新增学外汇得实惠活动助力功能
+# Version: 0.7.6
+# UpdateDate: 2020-05-10 20:03
+# UpdateLog: 新增消保分会场题库
 
 import requests
 import json
@@ -23,7 +23,8 @@ class getCCB():
         self.motherDayShareCode = shareCode['motherDay']
         self.whcanswerShareCode = shareCode['whcanswer']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
-        self.questionFilePath = rootDir + '/questions.json'
+        self.whcanswerFilePath = rootDir + '/whcanswer.json'
+        self.xbanswerFilePath = rootDir + '/xbanswer.json'
 
 
     def getApi(self,functionId,activityId='lPYNjdmN',params=()):
@@ -476,8 +477,8 @@ class getCCB():
         logger.info('')
         logger.info('开始做 学外汇 得实惠 活动')
         # 读取题库
-        if os.path.exists(self.questionFilePath):
-            with open(self.questionFilePath,encoding='UTF-8') as fp:
+        if os.path.exists(self.whcanswerFilePath):
+            with open(self.whcanswerFilePath,encoding='UTF-8') as fp:
                 questionDict = json.load(fp)
         else:
             logger.info('题库不存在，请下载完整题库')
