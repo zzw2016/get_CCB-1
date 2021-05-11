@@ -3,6 +3,7 @@ import json
 import os
 import logging
 import time
+import sys
 
 def getUserInfo(cookies):
     headers = {
