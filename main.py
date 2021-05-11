@@ -19,6 +19,15 @@ class getCCB():
     def __init__(self,cookies,shareCode):
         self.cookies = cookies
         self.ua = 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64'
+        shareCodeKeys = shareCode.keys()
+        if(not 'common' in shareCodeKeys):
+            shareCode['common'] = []
+        if(not 'motherDay' in shareCodeKeys):
+            shareCode['motherDay'] = []
+        if(not 'whcanswer' in shareCodeKeys):
+            shareCode['whcanswer'] = []
+        if(not 'xbanswer' in shareCodeKeys):
+            shareCode['xbanswer'] = []
         self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
         self.whcanswerShareCode = shareCode['whcanswer']
