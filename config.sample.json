@@ -9,7 +9,8 @@
         "common": [],
         "motherDay": [],
         "whcanswer": [],
-        "xbanswer": []
+        "xbanswer": [],
+        "lctopic": []
     },
     "logDir": ""
 }

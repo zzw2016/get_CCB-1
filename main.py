@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.8.1
-# UpdateDate: 2020-05-10 20:45
-# UpdateLog: 新增消保分会场活动答题、抽奖、助力功能
+# Version: 0.9.1
+# UpdateDate: 2020-05-11 21:55
+# UpdateLog: 新增商圈分会场日常任务、助力、抽奖
 
 import requests
 import json
@@ -28,10 +28,13 @@ class getCCB():
             shareCode['whcanswer'] = []
         if(not 'xbanswer' in shareCodeKeys):
             shareCode['xbanswer'] = []
+        if(not 'lctopic' in shareCodeKeys):
+            shareCode['lctopic'] = []
         self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
         self.whcanswerShareCode = shareCode['whcanswer']
         self.xbanswerShareCode = shareCode['xbanswer']
+        self.lctopicShareCode = shareCode['lctopic']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.whcanswerFilePath = rootDir + '/whcanswer.json'
         self.xbanswerFilePath = rootDir + '/xbanswer.json'
@@ -693,7 +696,109 @@ class getCCB():
                 logger.info('未报名，请前往活动主页报名')
         else:
             logger.info('抱歉，该活动已结束')
-        
+
+    
+    def doLctopicTask(self):
+        '''
+        建行社区商圈专属会场日常任务、助力、砸金蛋
+        '''
+        logger.info('')
+        logger.info('开始做社区商圈专属会场任务')
+        activityInfo = self.getApi('Common/activity/getActivityInfo','kZMNeB3W')
+        if int(time.time()) < activityInfo['data']['end_time']:
+            # 获取用户信息
+            userInfo = self.getApi('Common/activity/getUserInfo','kZMNeB3W')
+            logger.info('您的活动助力码为：{}'.format(userInfo['data']['ident']))
+            try:
+                user_name = urllib.parse.quote(userInfo['data']['nickname'])
+                addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccblctopic"))
+                if addCodeResult.status_code == 200:
+                    logger.info('提交云端助力池成功')
+                else:
+                    logger.error('提交云端助力池失败')
+            except Exception as e:
+                logger.error(e)
+            # 访问首页，获得一次抽奖机会
+            self.getApi('a','kZMNeB3W/index')
+            # 获取任务列表
+            taskList = self.getApi('activity/community/getTaskList','kZMNeB3W')
+            # 日常任务
+            logger.info('共获取到{}个日常任务'.format(len(taskList['data']['task']['loop'])))
+            for i in range(len(taskList['data']['task']['loop'])):
+                logger.info('开始做任务{}【{}】'.format(i+1,taskList['data']['task']['loop'][i]['show_set']['name']))
+                if taskList['data']['userTask']['loop'][i]['finish'] == 0:
+                    if taskList['data']['task']['loop'][i]['type'] == 'visit':
+                        data = '{"id":"' + taskList['data']['task']['loop'][i]['id'] + '"}'
+                        dotaskResult = self.postApi('Component/task/do',data,'kZMNeB3W')
+                        logger.info(dotaskResult['message'])
+                        drawResult = self.postApi('Component/task/draw',data,'kZMNeB3W')
+                        logger.info(drawResult['message'])
+                    time.sleep(5)
+                else:
+                    logger.info('该任务已完成，无需重复执行')
+                    # 邀请任务领奖
+                    if taskList['data']['task']['loop'][i]['type'] == 'share':
+                        data = '{"id":"' + taskList['data']['task']['loop'][i]['id'] + '"}'
+                        drawResult = self.postApi('Component/task/draw',data,'kZMNeB3W')
+                        logger.info(drawResult['message'])
+            # 单次任务
+            logger.info('共获取到{}个单次任务'.format(len(taskList['data']['task']['once'])))
+            for i in range(len(taskList['data']['task']['once'])):
+                logger.info('开始做任务{}【{}】'.format(i+1,taskList['data']['task']['once'][i]['show_set']['name']))
+                if taskList['data']['userTask']['once'][i]['finish'] == 0:
+                    if taskList['data']['task']['once'][i]['type'] == 'visit':
+                        data = '{"id":"' + taskList['data']['task']['once'][i]['id'] + '"}'
+                        dotaskResult = self.postApi('Component/task/do',data,'kZMNeB3W')
+                        logger.info(dotaskResult['message'])
+                        drawResult = self.postApi('Component/task/draw',data,'kZMNeB3W')
+                        logger.info(drawResult['message'])
+                    else:
+                        logger.info('请手动完成')
+                else:
+                    logger.info('该任务已完成，无需重复执行')
+            # 助力
+            logger.info('开始助力好友')
+            logger.info(self.lctopicShareCode)
+            self.getLctopicode()
+            if len(self.lctopicShareCode) == 0:
+                logger.info('未提供任何助力码')
+            else:
+                logger.info('您提供了{}个好友助力码'.format(len(self.lctopicShareCode)))
+            for i in range(len(self.lctopicShareCode)):
+                logger.info('开始助力好友{}'.format(i+1))
+                self.getApi('a','kZMNeB3W',(('u', self.lctopicShareCode[i]),))
+                time.sleep(3)
+            # 抽奖
+            logger.info('开始砸金蛋')
+            indexInfo = self.getApi('activity/community/getIndex','kZMNeB3W')
+            remainNum = int(indexInfo['data']['remain_num'])
+            logger.info('当前剩余{}次机会'.format(remainNum))
+            if int(remainNum) > 0:
+                for i in range(remainNum):
+                    drawPrizeResult =  self.postApi('activity/community/commonDrawPrize',{},'kZMNeB3W')
+                    if drawPrizeResult['status'] == 'fail':
+                        logger.info(drawPrizeResult['message'])
+                    else:
+                        logger.info('抽中{}'.format(drawPrizeResult['data']['prizename']))
+                    time.sleep(5)
+        else:
+            logger.info('抱歉，该活动已结束')
+
+    def getLctopicode(self):
+        '''
+        获取商圈分会场互助码
+        '''
+        try:
+            lctopicres = requests.get("http://47.100.61.159:10080/ccblctopic")
+            if lctopicres.status_code == 200:
+                lctopiccode = lctopicres.text.split('@')
+                logger.info('从云端拉取到{}个互助码{}'.format(len(lctopiccode),lctopiccode))
+            else:
+                lctopiccode = []
+        except:
+            lctopiccode = []
+        self.lctopicShareCode += lctopiccode
+
 
     def main(self):
         try:
@@ -715,6 +820,8 @@ class getCCB():
             self.doXbanswer()
             # 越花越赚领奖
             self.doPayCost()
+            # 社区商圈专属会场
+            self.doLctopicTask()
         except Exception as e:
             logger.error(e)
     
@@ -762,6 +869,7 @@ def cleanLog(logDir):
         logger.info("未检测到过期日志，无需清理！")
 
 if __name__ == '__main__':
+    global rootDir
     rootDir = os.path.dirname(os.path.abspath(__file__))
     configPath = rootDir + "/config.json"
     config = readConfig(configPath)
@@ -769,6 +877,7 @@ if __name__ == '__main__':
     if 'logDir' in config:
         if config['logDir'] != '':
             logDir = config['logDir'] + "/ccb_main/"
+    global logger
     logger = createLog(logDir)
     for i in range(len(config['cookie'])):
         user = getCCB(config['cookie'][i],config['shareCode'])
