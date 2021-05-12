@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.10.2
-# UpdateDate: 2020-05-12 13:08
-# UpdateLog: 新增消保分会场眼力大考验活动题库、抽奖功能
+# Version: 0.10.3
+# UpdateDate: 2020-05-12 13:39
+# UpdateLog: 优化请求接口及Cookie有效性检测流程
 
 import requests
 import json
@@ -54,18 +54,22 @@ class getCCB():
             'user-agent': self.ua,
             'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
         }
-        try:
-            r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
-            if re.findall('DOCTYPE',r.text):
-                return r.text
-            else:
-                return r.json()
-        except:
-            logger.error('调用接口失败，等待10秒重试')
-            time.sleep(10)
-            r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
-            return r.json()
-
+        for i in range(5):
+            try:
+                r = requests.get(url, headers=headers, params=params, cookies=self.cookies)
+                r.encoding = 'utf-8'
+                if r.status_code == 200:
+                    if re.findall('DOCTYPE',r.text):
+                        return r.text
+                    else:
+                        return r.json()
+                else:
+                    logger.error('调用接口失败，等待10秒重试')
+                    time.sleep(10)
+            except:
+                logger.error('调用接口失败，等待10秒重试')
+                time.sleep(10)
+                
 
     def postApi(self,functionId,data,activityId='lPYNjdmN'):
         '''
@@ -80,18 +84,22 @@ class getCCB():
             'referer': 'https://fission-events.ccbft.com/a/91/lPYNjdmN/fdtopic_v1/index',
             'content-type': 'application/json;charset=UTF-8',
         }
-        try:
-            r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
-            if re.findall('DOCTYPE',r.text):
-                logger.error('Cookie已失效，请更新Cookie')
-                return False
-            else:
-                return r.json()
-        except:
-            logger.error('调用接口失败，等待10秒重试')
-            time.sleep(10)
-            r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
-            return r.json()
+        for i in range(5):
+            try:
+                r = requests.post(url, headers=headers, data=data, cookies=self.cookies)
+                r.encoding = 'utf-8'
+                if r.status_code == 200:
+                    if re.findall('DOCTYPE',r.text):
+                        logger.error('Cookie已失效，请更新Cookie')
+                        return r.text
+                    else:
+                        return r.json()
+                else:
+                    logger.error('调用接口失败，等待10秒重试')
+                    time.sleep(10)
+            except:
+                logger.error('调用接口失败，等待10秒重试')
+                time.sleep(10)
 
 
     def payCostApi(self,functionId,params):
@@ -118,29 +126,34 @@ class getCCB():
             return r.json()
 
 
+    def checkCookie(self):
+        checkResult = self.getApi('Common/activity/getUserInfo')
+        if checkResult['status'] == 'success':
+            return True
+        else:
+            logger.error('第{}个账号已失效'.format(i+1))
+            return False
+
+
     def getUserInfo(self):
         '''
         获取账户信息
         '''
         userInfo = self.getApi('activity/fbtopic/userInfo')
-        if userInfo != False:
-            logger.info('用户{}信息获取成功'.format(userInfo['data']['nickname']))
-            logger.info('已获得CC币总量{}，剩余CC币总量{}'.format(userInfo['data']['ccb_money'],userInfo['data']['remain_ccb_money']))
-            logger.info('当前建筑等级{}级，已获得建设值总量{},升级还需建设值{}'.format(userInfo['data']['grade'],userInfo['data']['build_score'],userInfo['data']['need_build_score']))
-            logger.info('您的助力码为：{}'.format(userInfo['data']['ident']))
-            try:
-                user_name = urllib.parse.quote(userInfo['data']['nickname'])
-                addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbcommon"))
-                if addCodeResult.status_code == 200:
-                    logger.info('提交云端助力池成功')
-                else:
-                    logger.error('提交云端助力池失败')
-            except Exception as e:
-                logger.error(e)
-            return True
-        else:
-            return False
-        
+        logger.info('用户{}信息获取成功'.format(userInfo['data']['nickname']))
+        logger.info('已获得CC币总量{}，剩余CC币总量{}'.format(userInfo['data']['ccb_money'],userInfo['data']['remain_ccb_money']))
+        logger.info('当前建筑等级{}级，已获得建设值总量{},升级还需建设值{}'.format(userInfo['data']['grade'],userInfo['data']['build_score'],userInfo['data']['need_build_score']))
+        logger.info('您的助力码为：{}'.format(userInfo['data']['ident']))
+        try:
+            user_name = urllib.parse.quote(userInfo['data']['nickname'])
+            addCodeResult = requests.get('http://47.100.61.159:10080/add?user={}&code={}&type={}'.format(user_name,userInfo['data']['ident'],"ccbcommon"))
+            if addCodeResult.status_code == 200:
+                logger.info('提交云端助力池成功')
+            else:
+                logger.error('提交云端助力池失败')
+        except Exception as e:
+            logger.error(e)
+
 
     def acceptCCB(self):
         '''
@@ -158,12 +171,13 @@ class getCCB():
                 logger.info('领取{}建设值成功'.format(ccbList['data'][i]['ccb_num']))
 
 
-    def doTask(self):
+    def doFdtopicTask(self):
         '''
         主会场完成任务
         '''
         logger.info('')
         logger.info('开始做日常任务')
+        self.getUserInfo()
         activityInfo = self.getApi('Common/activity/getActivityInfo')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取任务列表
@@ -885,7 +899,7 @@ class getCCB():
     def main(self):
         try:
             # 主会场活动
-            self.doTask()
+            self.doFdtopicTask()
             # 龙支付分会场活动
             self.doSubvenueTask()
             # 车主分会场活动
@@ -965,7 +979,7 @@ if __name__ == '__main__':
     logger = createLog(logDir)
     for i in range(len(config['cookie'])):
         user = getCCB(config['cookie'][i],config['shareCode'])
-        if user.getUserInfo():
+        if user.checkCookie():
             user.main()
         else:
             logger.error('账号{}已失效，请及时更新Cookie'.format(i+1))
