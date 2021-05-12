@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.9.1
-# UpdateDate: 2020-05-11 21:55
-# UpdateLog: 新增商圈分会场日常任务、助力、抽奖
+# Version: 0.10.1
+# UpdateDate: 2020-05-12 10:41
+# UpdateLog: 新增消保分会场眼力大考验活动答题、助力功能
 
 import requests
 import json
@@ -28,12 +28,15 @@ class getCCB():
             shareCode['whcanswer'] = []
         if(not 'xbanswer' in shareCodeKeys):
             shareCode['xbanswer'] = []
+        if(not 'xbpickon' in shareCodeKeys):
+            shareCode['xbpickon'] = []
         if(not 'lctopic' in shareCodeKeys):
             shareCode['lctopic'] = []
         self.commonShareCode = shareCode['common'] + ["37ff922b-ba7b-4fb0-b6f9-c28042297b75"]
         self.motherDayShareCode = shareCode['motherDay']
         self.whcanswerShareCode = shareCode['whcanswer']
         self.xbanswerShareCode = shareCode['xbanswer']
+        self.xbpickonShareCode = shareCode['xbpickon']
         self.lctopicShareCode = shareCode['lctopic']
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.whcanswerFilePath = rootDir + '/whcanswer.json'
@@ -569,10 +572,10 @@ class getCCB():
 
     def doXbanswer(self):
         '''
-        消保分会场答题、抽奖、助力
+        消保分会场知识大考验答题、抽奖、助力
         '''
         logger.info('')
-        logger.info('开始做 消保分会场 活动')
+        logger.info('开始做 消保分会场知识大考验 活动')
         # 读取题库
         if os.path.exists(self.xbanswerFilePath):
             with open(self.xbanswerFilePath,encoding='UTF-8') as fp:
@@ -654,6 +657,62 @@ class getCCB():
         else:
             logger.info('抱歉，该活动已结束')
 
+
+    def doXbpickon(self):
+        '''
+        消保分会场眼力大考验答题、抽奖、助力
+        '''
+        logger.info('')
+        logger.info('开始做 消保分会场眼力大考验 活动')
+        # 读取活动信息
+        activityInfo = self.getApi('Common/activity/getActivityInfo','QPyo86Zj')
+        if int(time.time()) < activityInfo['data']['end_time']:
+            # 答题
+            # 获取用户信息
+            userInfo = self.getApi('Common/activity/getUserInfo','QPyo86Zj')
+            logger.info('您的活动助力码为：{}'.format(userInfo['data']['ident']))
+            userDataInfo = self.getApi('activity/xbpickon/getUserDataInfo','QPyo86Zj')
+            if userDataInfo['data']['remain_num'] > 0:
+                logger.info('今日剩余{}次答题机会'.format(userDataInfo['data']['remain_num']))
+                for num in range(userDataInfo['data']['remain_num']):
+                    logger.info('开始第{}轮答题'.format(num+1))
+                    # 使用答题机会
+                    self.getApi('activity/xbpickon/reduceNum','QPyo86Zj')
+                    # 获取题目
+                    questionInfo = self.getApi('activity/xbpickon/getQuestion','QPyo86Zj')
+                    questionIds = []
+                    for i in range(len(questionInfo['data'])):
+                        questionIds.append(str(questionInfo['data'][i]['id']))
+                    strQuestionIds = ','.join(questionIds)
+                    logger.info('词汇ID：{}'.format(strQuestionIds))
+                    data = '{"answerId":"' + strQuestionIds + '"}'
+                    answerResult = self.postApi('activity/xbpickon/answerQuestion',data,'QPyo86Zj')
+                    trueWordsId = answerResult['data']['right'].split(",")
+                    falseWordsId = list(set(questionIds) - set(trueWordsId))
+                    logger.info('正确词汇ID：{}'.format(trueWordsId))
+                    logger.info('错误词汇ID：{}'.format(falseWordsId))
+                    trueId = '@'.join(trueWordsId)
+                    falseId = '@'.join(falseWordsId)
+                    # 上传答案至服务器（搜集题库）
+                    requests.get('http://47.100.61.159:10080/judge?trueId={}&falseId={}'.format(trueId,falseId))
+                    # 休息5秒，防止接口频繁
+                    time.sleep(5)
+            else:
+                logger.info('今日已无答题机会')
+
+            # 助力
+            logger.info('开始助力好友')
+            if len(self.xbpickonShareCode) == 0:
+                logger.info('未提供任何助力码')
+            else:
+                logger.info('您提供了{}个好友助力码'.format(len(self.xbpickonShareCode)))
+            for i in range(len(self.xbpickonShareCode)):
+                logger.info('开始助力好友{}'.format(i+1))
+                self.getApi('a','QPyo86Zj',(('u', self.xbpickonShareCode[i]),))
+                time.sleep(3)
+        else:
+            logger.info('抱歉，该活动已结束')
+        
 
     def doPayCost(self):
         '''
@@ -816,8 +875,10 @@ class getCCB():
             self.mothersDayTask()
             # 学外汇 得实惠活动
             self.doWhcanswer()
-            # 消保分会场活动
+            # 消保分会场知识大考验
             self.doXbanswer()
+            # 消保分会场眼力大考验
+            self.doXbpickon()
             # 越花越赚领奖
             self.doPayCost()
             # 社区商圈专属会场
