@@ -1,0 +1,2267 @@
+{
+    "1": {
+        "id": 1,
+        "word": "嘉言善行",
+        "isRight": true
+    },
+    "11": {
+        "id": 11,
+        "word": "教导有方",
+        "isRight": true
+    },
+    "21": {
+        "id": 21,
+        "word": "循循善诱",
+        "isRight": true
+    },
+    "31": {
+        "id": 31,
+        "word": "东风化雨",
+        "isRight": true
+    },
+    "41": {
+        "id": 41,
+        "word": "春风中坐",
+        "isRight": true
+    },
+    "51": {
+        "id": 51,
+        "word": "尊闻行知",
+        "isRight": true
+    },
+    "61": {
+        "id": 61,
+        "word": "敬如上宾",
+        "isRight": true
+    },
+    "71": {
+        "id": 71,
+        "word": "斯抬斯敬",
+        "isRight": true
+    },
+    "81": {
+        "id": 81,
+        "word": "竭诚相待",
+        "isRight": true
+    },
+    "91": {
+        "id": 91,
+        "word": "以礼相待",
+        "isRight": true
+    },
+    "101": {
+        "id": 101,
+        "word": "依法赔偿",
+        "isRight": true
+    },
+    "111": {
+        "id": 111,
+        "word": "多元化解",
+        "isRight": true
+    },
+    "121": {
+        "id": 121,
+        "word": "及时处理",
+        "isRight": true
+    },
+    "131": {
+        "id": 131,
+        "word": "合理赔付",
+        "isRight": true
+    },
+    "141": {
+        "id": 141,
+        "word": "受理依据",
+        "isRight": true
+    },
+    "151": {
+        "id": 151,
+        "word": "等价交换",
+        "isRight": true
+    },
+    "161": {
+        "id": 161,
+        "word": "合法权益",
+        "isRight": true
+    },
+    "171": {
+        "id": 171,
+        "word": "质价相符",
+        "isRight": true
+    },
+    "181": {
+        "id": 181,
+        "word": "价格公开",
+        "isRight": true
+    },
+    "191": {
+        "id": 191,
+        "word": "保护弱小",
+        "isRight": true
+    },
+    "201": {
+        "id": 201,
+        "word": "公平",
+        "isRight": true
+    },
+    "211": {
+        "id": 211,
+        "word": "信用",
+        "isRight": true
+    },
+    "221": {
+        "id": 221,
+        "word": "自由裁量",
+        "isRight": true
+    },
+    "231": {
+        "id": 231,
+        "word": "公平交易",
+        "isRight": true
+    },
+    "241": {
+        "id": 241,
+        "word": "账户安全",
+        "isRight": true
+    },
+    "251": {
+        "id": 251,
+        "word": "合法使用",
+        "isRight": true
+    },
+    "261": {
+        "id": 261,
+        "word": "风险防范",
+        "isRight": true
+    },
+    "271": {
+        "id": 271,
+        "word": "信息真实",
+        "isRight": true
+    },
+    "281": {
+        "id": 281,
+        "word": "万无一失",
+        "isRight": true
+    },
+    "291": {
+        "id": 291,
+        "word": "及时规避",
+        "isRight": true
+    },
+    "301": {
+        "id": 301,
+        "word": "数据安全",
+        "isRight": true
+    },
+    "311": {
+        "id": 311,
+        "word": "电子签名",
+        "isRight": true
+    },
+    "321": {
+        "id": 321,
+        "word": "信息交换",
+        "isRight": true
+    },
+    "331": {
+        "id": 331,
+        "word": "自愿选择",
+        "isRight": true
+    },
+    "341": {
+        "id": 341,
+        "word": "依法监督",
+        "isRight": true
+    },
+    "351": {
+        "id": 351,
+        "word": "明显",
+        "isRight": true
+    },
+    "361": {
+        "id": 361,
+        "word": "真心实意",
+        "isRight": true
+    },
+    "371": {
+        "id": 371,
+        "word": "敞开心扉",
+        "isRight": true
+    },
+    "381": {
+        "id": 381,
+        "word": "如实相告",
+        "isRight": true
+    },
+    "391": {
+        "id": 391,
+        "word": "货真价实",
+        "isRight": true
+    },
+    "401": {
+        "id": 401,
+        "word": "求知若渴",
+        "isRight": true
+    },
+    "411": {
+        "id": 411,
+        "word": "学而不厌",
+        "isRight": true
+    },
+    "421": {
+        "id": 421,
+        "word": "学无止境",
+        "isRight": true
+    },
+    "431": {
+        "id": 431,
+        "word": "有教无类",
+        "isRight": true
+    },
+    "441": {
+        "id": 441,
+        "word": "诲人不倦",
+        "isRight": true
+    },
+    "451": {
+        "id": 451,
+        "word": "程门立雪",
+        "isRight": true
+    },
+    "461": {
+        "id": 461,
+        "word": "彬彬有礼",
+        "isRight": true
+    },
+    "471": {
+        "id": 471,
+        "word": "敬老怜贫",
+        "isRight": true
+    },
+    "481": {
+        "id": 481,
+        "word": "毕恭毕敬",
+        "isRight": true
+    },
+    "491": {
+        "id": 491,
+        "word": "扫径以待",
+        "isRight": true
+    },
+    "501": {
+        "id": 501,
+        "word": " 代位追偿",
+        "isRight": true
+    },
+    "511": {
+        "id": 511,
+        "word": "友好协商",
+        "isRight": true
+    },
+    "521": {
+        "id": 521,
+        "word": "首问负责",
+        "isRight": true
+    },
+    "531": {
+        "id": 531,
+        "word": "有法可依",
+        "isRight": true
+    },
+    "541": {
+        "id": 541,
+        "word": "有理有据",
+        "isRight": true
+    },
+    "551": {
+        "id": 551,
+        "word": "价格合理",
+        "isRight": true
+    },
+    "561": {
+        "id": 561,
+        "word": "准确计价",
+        "isRight": true
+    },
+    "571": {
+        "id": 571,
+        "word": "买卖公平",
+        "isRight": true
+    },
+    "581": {
+        "id": 581,
+        "word": "诚实守信",
+        "isRight": true
+    },
+    "591": {
+        "id": 591,
+        "word": "透明公开",
+        "isRight": true
+    },
+    "601": {
+        "id": 601,
+        "word": "公开",
+        "isRight": true
+    },
+    "611": {
+        "id": 611,
+        "word": "自愿",
+        "isRight": true
+    },
+    "621": {
+        "id": 621,
+        "word": "合适",
+        "isRight": true
+    },
+    "631": {
+        "id": 631,
+        "word": "密码安全",
+        "isRight": true
+    },
+    "641": {
+        "id": 641,
+        "word": "安全保障",
+        "isRight": true
+    },
+    "651": {
+        "id": 651,
+        "word": "鉴别能力",
+        "isRight": true
+    },
+    "661": {
+        "id": 661,
+        "word": "风险警示",
+        "isRight": true
+    },
+    "671": {
+        "id": 671,
+        "word": "稳若泰山",
+        "isRight": true
+    },
+    "681": {
+        "id": 681,
+        "word": "保质保量",
+        "isRight": true
+    },
+    "691": {
+        "id": 691,
+        "word": "信息安全",
+        "isRight": true
+    },
+    "701": {
+        "id": 701,
+        "word": "指纹安全",
+        "isRight": true
+    },
+    "711": {
+        "id": 711,
+        "word": "安全秘钥",
+        "isRight": true
+    },
+    "721": {
+        "id": 721,
+        "word": "安全保障",
+        "isRight": true
+    },
+    "731": {
+        "id": 731,
+        "word": "符合原则",
+        "isRight": true
+    },
+    "741": {
+        "id": 741,
+        "word": " 诚实",
+        "isRight": true
+    },
+    "751": {
+        "id": 751,
+        "word": "开诚布公",
+        "isRight": true
+    },
+    "761": {
+        "id": 761,
+        "word": "实话实说",
+        "isRight": true
+    },
+    "771": {
+        "id": 771,
+        "word": "坦诚相对",
+        "isRight": true
+    },
+    "781": {
+        "id": 781,
+        "word": "去伪存真",
+        "isRight": true
+    },
+    "791": {
+        "id": 791,
+        "word": "因材施教",
+        "isRight": true
+    },
+    "801": {
+        "id": 801,
+        "word": "格物致知",
+        "isRight": true
+    },
+    "811": {
+        "id": 811,
+        "word": "学以致用",
+        "isRight": true
+    },
+    "821": {
+        "id": 821,
+        "word": "力学笃行",
+        "isRight": true
+    },
+    "831": {
+        "id": 831,
+        "word": "博学多才",
+        "isRight": true
+    },
+    "841": {
+        "id": 841,
+        "word": "洗耳恭听",
+        "isRight": true
+    },
+    "851": {
+        "id": 851,
+        "word": "尊年尚齿",
+        "isRight": true
+    },
+    "861": {
+        "id": 861,
+        "word": "敬老慈幼",
+        "isRight": true
+    },
+    "871": {
+        "id": 871,
+        "word": "敬老尊贤",
+        "isRight": true
+    },
+    "881": {
+        "id": 881,
+        "word": "弥补损害",
+        "isRight": true
+    },
+    "891": {
+        "id": 891,
+        "word": "赔礼道歉",
+        "isRight": true
+    },
+    "901": {
+        "id": 901,
+        "word": "合理申诉",
+        "isRight": true
+    },
+    "911": {
+        "id": 911,
+        "word": "证据确凿",
+        "isRight": true
+    },
+    "921": {
+        "id": 921,
+        "word": " 民事调解",
+        "isRight": true
+    },
+    "931": {
+        "id": 931,
+        "word": "货真价实",
+        "isRight": true
+    },
+    "941": {
+        "id": 941,
+        "word": "严格准入",
+        "isRight": true
+    },
+    "951": {
+        "id": 951,
+        "word": "自由谈判",
+        "isRight": true
+    },
+    "961": {
+        "id": 961,
+        "word": " 解释合理",
+        "isRight": true
+    },
+    "971": {
+        "id": 971,
+        "word": "公平竞争",
+        "isRight": true
+    },
+    "981": {
+        "id": 981,
+        "word": "公正",
+        "isRight": true
+    },
+    "991": {
+        "id": 991,
+        "word": "自由",
+        "isRight": true
+    },
+    "1001": {
+        "id": 1001,
+        "word": "尊重",
+        "isRight": true
+    },
+    "1011": {
+        "id": 1011,
+        "word": "授权使用",
+        "isRight": true
+    },
+    "1021": {
+        "id": 1021,
+        "word": "杜绝侵害",
+        "isRight": true
+    },
+    "1031": {
+        "id": 1031,
+        "word": "财产安全",
+        "isRight": true
+    },
+    "1041": {
+        "id": 1041,
+        "word": "安全保障",
+        "isRight": true
+    },
+    "1051": {
+        "id": 1051,
+        "word": "防微杜渐",
+        "isRight": true
+    },
+    "1061": {
+        "id": 1061,
+        "word": "保障权益",
+        "isRight": true
+    },
+    "1071": {
+        "id": 1071,
+        "word": "依法收集",
+        "isRight": true
+    },
+    "1081": {
+        "id": 1081,
+        "word": "虹膜技术",
+        "isRight": true
+    },
+    "1091": {
+        "id": 1091,
+        "word": "数据准确",
+        "isRight": true
+    },
+    "1101": {
+        "id": 1101,
+        "word": "严格保密",
+        "isRight": true
+    },
+    "1111": {
+        "id": 1111,
+        "word": "依法查询",
+        "isRight": true
+    },
+    "1121": {
+        "id": 1121,
+        "word": "一目了然",
+        "isRight": true
+    },
+    "1131": {
+        "id": 1131,
+        "word": "学海无涯",
+        "isRight": true
+    },
+    "1141": {
+        "id": 1141,
+        "word": "教导有方",
+        "isRight": true
+    },
+    "1151": {
+        "id": 1151,
+        "word": "勤学好问",
+        "isRight": true
+    },
+    "1161": {
+        "id": 1161,
+        "word": "满腹经纶",
+        "isRight": true
+    },
+    "1171": {
+        "id": 1171,
+        "word": "鸿儒硕学",
+        "isRight": true
+    },
+    "1181": {
+        "id": 1181,
+        "word": "尊师重道",
+        "isRight": true
+    },
+    "1191": {
+        "id": 1191,
+        "word": "负弩前驱",
+        "isRight": true
+    },
+    "1201": {
+        "id": 1201,
+        "word": "热情周到",
+        "isRight": true
+    },
+    "1211": {
+        "id": 1211,
+        "word": "敬如上宾",
+        "isRight": true
+    },
+    "1221": {
+        "id": 1221,
+        "word": "快速核查",
+        "isRight": true
+    },
+    "1231": {
+        "id": 1231,
+        "word": "公平公正",
+        "isRight": true
+    },
+    "1241": {
+        "id": 1241,
+        "word": "和解机制",
+        "isRight": true
+    },
+    "1251": {
+        "id": 1251,
+        "word": "及时受理",
+        "isRight": true
+    },
+    "1261": {
+        "id": 1261,
+        "word": "事实明显",
+        "isRight": true
+    },
+    "1271": {
+        "id": 1271,
+        "word": "充分披露",
+        "isRight": true
+    },
+    "1281": {
+        "id": 1281,
+        "word": "货值其价",
+        "isRight": true
+    },
+    "1291": {
+        "id": 1291,
+        "word": "价格合理",
+        "isRight": true
+    },
+    "1301": {
+        "id": 1301,
+        "word": "信息对等",
+        "isRight": true
+    },
+    "1311": {
+        "id": 1311,
+        "word": "平等自愿",
+        "isRight": true
+    },
+    "1321": {
+        "id": 1321,
+        "word": "真实",
+        "isRight": true
+    },
+    "1331": {
+        "id": 1331,
+        "word": "自主",
+        "isRight": true
+    },
+    "1341": {
+        "id": 1341,
+        "word": "推荐",
+        "isRight": true
+    },
+    "1351": {
+        "id": 1351,
+        "word": "自主选择",
+        "isRight": true
+    },
+    "1361": {
+        "id": 1361,
+        "word": "密钥安全",
+        "isRight": true
+    },
+    "1371": {
+        "id": 1371,
+        "word": "信息透明",
+        "isRight": true
+    },
+    "1381": {
+        "id": 1381,
+        "word": "合理收费",
+        "isRight": true
+    },
+    "1391": {
+        "id": 1391,
+        "word": "个人权益",
+        "isRight": true
+    },
+    "1401": {
+        "id": 1401,
+        "word": "居安思危",
+        "isRight": true
+    },
+    "1411": {
+        "id": 1411,
+        "word": "举证通报",
+        "isRight": true
+    },
+    "1421": {
+        "id": 1421,
+        "word": "授权使用",
+        "isRight": true
+    },
+    "1431": {
+        "id": 1431,
+        "word": "电子签约",
+        "isRight": true
+    },
+    "1441": {
+        "id": 1441,
+        "word": "真实全面",
+        "isRight": true
+    },
+    "1451": {
+        "id": 1451,
+        "word": "履行义务",
+        "isRight": true
+    },
+    "1461": {
+        "id": 1461,
+        "word": "承担责任",
+        "isRight": true
+    },
+    "1471": {
+        "id": 1471,
+        "word": " 通俗易懂",
+        "isRight": true
+    },
+    "1481": {
+        "id": 1481,
+        "word": "耳提面命",
+        "isRight": true
+    },
+    "1491": {
+        "id": 1491,
+        "word": "心口如一",
+        "isRight": true
+    },
+    "1501": {
+        "id": 1501,
+        "word": "仗气直书",
+        "isRight": true
+    },
+    "1511": {
+        "id": 1511,
+        "word": "手不释卷",
+        "isRight": true
+    },
+    "1521": {
+        "id": 1521,
+        "word": "笃实好学",
+        "isRight": true
+    },
+    "1531": {
+        "id": 1531,
+        "word": "学富五车",
+        "isRight": true
+    },
+    "1541": {
+        "id": 1541,
+        "word": "博古通今",
+        "isRight": true
+    },
+    "1551": {
+        "id": 1551,
+        "word": "书通二酉",
+        "isRight": true
+    },
+    "1561": {
+        "id": 1561,
+        "word": "安老怀少",
+        "isRight": true
+    },
+    "1571": {
+        "id": 1571,
+        "word": "尊年尚齿",
+        "isRight": true
+    },
+    "1581": {
+        "id": 1581,
+        "word": "奉若神明",
+        "isRight": true
+    },
+    "1591": {
+        "id": 1591,
+        "word": "举案齐眉",
+        "isRight": true
+    },
+    "1601": {
+        "id": 1601,
+        "word": "倒履相迎",
+        "isRight": true
+    },
+    "1611": {
+        "id": 1611,
+        "word": "溯源整改 ",
+        "isRight": true
+    },
+    "1621": {
+        "id": 1621,
+        "word": "责任追究",
+        "isRight": true
+    },
+    "1631": {
+        "id": 1631,
+        "word": "投诉畅通",
+        "isRight": true
+    },
+    "1641": {
+        "id": 1641,
+        "word": "电话畅通",
+        "isRight": true
+    },
+    "1651": {
+        "id": 1651,
+        "word": "受理有效",
+        "isRight": true
+    },
+    "1661": {
+        "id": 1661,
+        "word": "规范文本",
+        "isRight": true
+    },
+    "1671": {
+        "id": 1671,
+        "word": "风险提示",
+        "isRight": true
+    },
+    "1681": {
+        "id": 1681,
+        "word": "保质保量",
+        "isRight": true
+    },
+    "1691": {
+        "id": 1691,
+        "word": "交易公平",
+        "isRight": true
+    },
+    "1701": {
+        "id": 1701,
+        "word": "交易自主",
+        "isRight": true
+    },
+    "1711": {
+        "id": 1711,
+        "word": "准确",
+        "isRight": true
+    },
+    "1721": {
+        "id": 1721,
+        "word": "平等",
+        "isRight": true
+    },
+    "1731": {
+        "id": 1731,
+        "word": "尊重意愿",
+        "isRight": true
+    },
+    "1741": {
+        "id": 1741,
+        "word": "自主决定",
+        "isRight": true
+    },
+    "1751": {
+        "id": 1751,
+        "word": "抵制不当",
+        "isRight": true
+    },
+    "1761": {
+        "id": 1761,
+        "word": "信息对称",
+        "isRight": true
+    },
+    "1771": {
+        "id": 1771,
+        "word": "防止纠纷",
+        "isRight": true
+    },
+    "1781": {
+        "id": 1781,
+        "word": "金融素养",
+        "isRight": true
+    },
+    "1791": {
+        "id": 1791,
+        "word": "稳健投资",
+        "isRight": true
+    },
+    "1801": {
+        "id": 1801,
+        "word": "防范意识",
+        "isRight": true
+    },
+    "1811": {
+        "id": 1811,
+        "word": "合理使用",
+        "isRight": true
+    },
+    "1821": {
+        "id": 1821,
+        "word": "内容检查",
+        "isRight": true
+    },
+    "1831": {
+        "id": 1831,
+        "word": "正当合法",
+        "isRight": true
+    },
+    "1841": {
+        "id": 1841,
+        "word": "信息隐私",
+        "isRight": true
+    },
+    "1851": {
+        "id": 1851,
+        "word": "防止损失",
+        "isRight": true
+    },
+    "1861": {
+        "id": 1861,
+        "word": " 开门见山",
+        "isRight": true
+    },
+    "1871": {
+        "id": 1871,
+        "word": "实不相瞒",
+        "isRight": true
+    },
+    "1881": {
+        "id": 1881,
+        "word": "直截了当",
+        "isRight": true
+    },
+    "1891": {
+        "id": 1891,
+        "word": "公之于众",
+        "isRight": true
+    },
+    "1901": {
+        "id": 1901,
+        "word": "实事求是",
+        "isRight": true
+    },
+    "1911": {
+        "id": 1911,
+        "word": "敏而好学",
+        "isRight": true
+    },
+    "1921": {
+        "id": 1921,
+        "word": "学贯中西",
+        "isRight": true
+    },
+    "1931": {
+        "id": 1931,
+        "word": "力学不倦",
+        "isRight": true
+    },
+    "1941": {
+        "id": 1941,
+        "word": "智周万物",
+        "isRight": true
+    },
+    "1951": {
+        "id": 1951,
+        "word": "你敬我爱",
+        "isRight": true
+    },
+    "1961": {
+        "id": 1961,
+        "word": "落落大方",
+        "isRight": true
+    },
+    "1971": {
+        "id": 1971,
+        "word": "真心实意",
+        "isRight": true
+    },
+    "1981": {
+        "id": 1981,
+        "word": "将心比心",
+        "isRight": true
+    },
+    "1991": {
+        "id": 1991,
+        "word": "正大光明",
+        "isRight": true
+    },
+    "2001": {
+        "id": 2001,
+        "word": "依法合规",
+        "isRight": true
+    },
+    "2011": {
+        "id": 2011,
+        "word": "风险提示",
+        "isRight": true
+    },
+    "2021": {
+        "id": 2021,
+        "word": "妥善处理",
+        "isRight": true
+    },
+    "2031": {
+        "id": 2031,
+        "word": "合理维权",
+        "isRight": true
+    },
+    "2041": {
+        "id": 2041,
+        "word": "及时处理",
+        "isRight": true
+    },
+    "2051": {
+        "id": 2051,
+        "word": "机会平等",
+        "isRight": true
+    },
+    "2061": {
+        "id": 2061,
+        "word": "格式合同",
+        "isRight": true
+    },
+    "2071": {
+        "id": 2071,
+        "word": "自愿行为",
+        "isRight": true
+    },
+    "2081": {
+        "id": 2081,
+        "word": "履职履责",
+        "isRight": true
+    },
+    "2091": {
+        "id": 2091,
+        "word": "获利公平",
+        "isRight": true
+    },
+    "2101": {
+        "id": 2101,
+        "word": "诚实",
+        "isRight": true
+    },
+    "2111": {
+        "id": 2111,
+        "word": "自行判断",
+        "isRight": true
+    },
+    "2121": {
+        "id": 2121,
+        "word": "充分尊重",
+        "isRight": true
+    },
+    "2131": {
+        "id": 2131,
+        "word": "买卖自由",
+        "isRight": true
+    },
+    "2141": {
+        "id": 2141,
+        "word": "请勿轻信",
+        "isRight": true
+    },
+    "2151": {
+        "id": 2151,
+        "word": "公平互惠",
+        "isRight": true
+    },
+    "2161": {
+        "id": 2161,
+        "word": "诚实信用",
+        "isRight": true
+    },
+    "2171": {
+        "id": 2171,
+        "word": "审慎对待",
+        "isRight": true
+    },
+    "2181": {
+        "id": 2181,
+        "word": "分散风险",
+        "isRight": true
+    },
+    "2191": {
+        "id": 2191,
+        "word": "资金安全",
+        "isRight": true
+    },
+    "2201": {
+        "id": 2201,
+        "word": "数据字典",
+        "isRight": true
+    },
+    "2211": {
+        "id": 2211,
+        "word": "信息加密",
+        "isRight": true
+    },
+    "2221": {
+        "id": 2221,
+        "word": "流程标准",
+        "isRight": true
+    },
+    "2231": {
+        "id": 2231,
+        "word": "网络安全",
+        "isRight": true
+    },
+    "2241": {
+        "id": 2241,
+        "word": "维护权益",
+        "isRight": true
+    },
+    "2251": {
+        "id": 2251,
+        "word": "知无不言",
+        "isRight": true
+    },
+    "2261": {
+        "id": 2261,
+        "word": "倾囊相授",
+        "isRight": true
+    },
+    "2271": {
+        "id": 2271,
+        "word": "千真万确",
+        "isRight": true
+    },
+    "2281": {
+        "id": 2281,
+        "word": "情真意切",
+        "isRight": true
+    },
+    "2291": {
+        "id": 2291,
+        "word": "屡教不改",
+        "isRight": false
+    },
+    "2301": {
+        "id": 2301,
+        "word": "秀而不实",
+        "isRight": false
+    },
+    "2311": {
+        "id": 2311,
+        "word": "不学无术",
+        "isRight": false
+    },
+    "2321": {
+        "id": 2321,
+        "word": "不求甚解",
+        "isRight": false
+    },
+    "2331": {
+        "id": 2331,
+        "word": "浅见寡识",
+        "isRight": false
+    },
+    "2341": {
+        "id": 2341,
+        "word": "傲慢不逊",
+        "isRight": false
+    },
+    "2351": {
+        "id": 2351,
+        "word": "咄咄逼人",
+        "isRight": false
+    },
+    "2361": {
+        "id": 2361,
+        "word": "不可一世",
+        "isRight": false
+    },
+    "2371": {
+        "id": 2371,
+        "word": "目空一切",
+        "isRight": false
+    },
+    "2381": {
+        "id": 2381,
+        "word": "仗势欺人",
+        "isRight": false
+    },
+    "2391": {
+        "id": 2391,
+        "word": "推诿扯皮",
+        "isRight": false
+    },
+    "2401": {
+        "id": 2401,
+        "word": "敲诈勒索",
+        "isRight": false
+    },
+    "2411": {
+        "id": 2411,
+        "word": "歪曲事实",
+        "isRight": false
+    },
+    "2421": {
+        "id": 2421,
+        "word": "捏造事实",
+        "isRight": false
+    },
+    "2431": {
+        "id": 2431,
+        "word": " 恶意投诉",
+        "isRight": false
+    },
+    "2441": {
+        "id": 2441,
+        "word": "诱导销售",
+        "isRight": false
+    },
+    "2451": {
+        "id": 2451,
+        "word": "高额佣金",
+        "isRight": false
+    },
+    "2461": {
+        "id": 2461,
+        "word": "强制交易",
+        "isRight": false
+    },
+    "2471": {
+        "id": 2471,
+        "word": "转嫁成本",
+        "isRight": false
+    },
+    "2481": {
+        "id": 2481,
+        "word": "虚假交易",
+        "isRight": false
+    },
+    "2491": {
+        "id": 2491,
+        "word": "非法侵害",
+        "isRight": false
+    },
+    "2501": {
+        "id": 2501,
+        "word": "店大欺客",
+        "isRight": false
+    },
+    "2511": {
+        "id": 2511,
+        "word": "胁迫",
+        "isRight": false
+    },
+    "2521": {
+        "id": 2521,
+        "word": "犹豫不决",
+        "isRight": false
+    },
+    "2531": {
+        "id": 2531,
+        "word": "非法集资",
+        "isRight": false
+    },
+    "2541": {
+        "id": 2541,
+        "word": "高利诱惑",
+        "isRight": false
+    },
+    "2551": {
+        "id": 2551,
+        "word": "巧立名目",
+        "isRight": false
+    },
+    "2561": {
+        "id": 2561,
+        "word": "虚假宣传",
+        "isRight": false
+    },
+    "2571": {
+        "id": 2571,
+        "word": "人财两空",
+        "isRight": false
+    },
+    "2581": {
+        "id": 2581,
+        "word": "虚假网页",
+        "isRight": false
+    },
+    "2591": {
+        "id": 2591,
+        "word": "非法收集",
+        "isRight": false
+    },
+    "2601": {
+        "id": 2601,
+        "word": "信息泄露",
+        "isRight": false
+    },
+    "2611": {
+        "id": 2611,
+        "word": "间谍软件",
+        "isRight": false
+    },
+    "2621": {
+        "id": 2621,
+        "word": "无效数据",
+        "isRight": false
+    },
+    "2631": {
+        "id": 2631,
+        "word": "追偿难",
+        "isRight": false
+    },
+    "2641": {
+        "id": 2641,
+        "word": "掩人耳目",
+        "isRight": false
+    },
+    "2651": {
+        "id": 2651,
+        "word": "混淆视听",
+        "isRight": false
+    },
+    "2661": {
+        "id": 2661,
+        "word": "偏离 ",
+        "isRight": false
+    },
+    "2671": {
+        "id": 2671,
+        "word": "模棱两可",
+        "isRight": false
+    },
+    "2681": {
+        "id": 2681,
+        "word": "故弄玄虚",
+        "isRight": false
+    },
+    "2691": {
+        "id": 2691,
+        "word": "孤陋寡闻",
+        "isRight": false
+    },
+    "2701": {
+        "id": 2701,
+        "word": "蒙昧无知",
+        "isRight": false
+    },
+    "2711": {
+        "id": 2711,
+        "word": "胸无点墨",
+        "isRight": false
+    },
+    "2721": {
+        "id": 2721,
+        "word": "一知半解",
+        "isRight": false
+    },
+    "2731": {
+        "id": 2731,
+        "word": "一窍不通",
+        "isRight": false
+    },
+    "2741": {
+        "id": 2741,
+        "word": "欺贫爱富",
+        "isRight": false
+    },
+    "2751": {
+        "id": 2751,
+        "word": "不理不睬",
+        "isRight": false
+    },
+    "2761": {
+        "id": 2761,
+        "word": "斯文扫地",
+        "isRight": false
+    },
+    "2771": {
+        "id": 2771,
+        "word": "盛世凌人",
+        "isRight": false
+    },
+    "2781": {
+        "id": 2781,
+        "word": "诬告他人",
+        "isRight": false
+    },
+    "2791": {
+        "id": 2791,
+        "word": "忍气吞声",
+        "isRight": false
+    },
+    "2801": {
+        "id": 2801,
+        "word": "扰乱秩序",
+        "isRight": false
+    },
+    "2811": {
+        "id": 2811,
+        "word": "投诉受阻",
+        "isRight": false
+    },
+    "2821": {
+        "id": 2821,
+        "word": "纠缠不清",
+        "isRight": false
+    },
+    "2831": {
+        "id": 2831,
+        "word": "显失公平",
+        "isRight": false
+    },
+    "2841": {
+        "id": 2841,
+        "word": "非法集资",
+        "isRight": false
+    },
+    "2851": {
+        "id": 2851,
+        "word": "单方变更",
+        "isRight": false
+    },
+    "2861": {
+        "id": 2861,
+        "word": "欺诈合同",
+        "isRight": false
+    },
+    "2871": {
+        "id": 2871,
+        "word": "伪造合同",
+        "isRight": false
+    },
+    "2881": {
+        "id": 2881,
+        "word": "恃强凌弱",
+        "isRight": false
+    },
+    "2891": {
+        "id": 2891,
+        "word": "欺骗",
+        "isRight": false
+    },
+    "2901": {
+        "id": 2901,
+        "word": "引诱消费",
+        "isRight": false
+    },
+    "2911": {
+        "id": 2911,
+        "word": "口是心非",
+        "isRight": false
+    },
+    "2921": {
+        "id": 2921,
+        "word": "非法获利",
+        "isRight": false
+    },
+    "2931": {
+        "id": 2931,
+        "word": "盲目跟从",
+        "isRight": false
+    },
+    "2941": {
+        "id": 2941,
+        "word": "巧舌如簧",
+        "isRight": false
+    },
+    "2951": {
+        "id": 2951,
+        "word": "伪基站",
+        "isRight": false
+    },
+    "2961": {
+        "id": 2961,
+        "word": "网络攻击",
+        "isRight": false
+    },
+    "2971": {
+        "id": 2971,
+        "word": "蠕虫病毒",
+        "isRight": false
+    },
+    "2981": {
+        "id": 2981,
+        "word": "侵犯安全",
+        "isRight": false
+    },
+    "2991": {
+        "id": 2991,
+        "word": "未经授权",
+        "isRight": false
+    },
+    "3001": {
+        "id": 3001,
+        "word": "偷天换日",
+        "isRight": false
+    },
+    "3011": {
+        "id": 3011,
+        "word": "瞒心昧己",
+        "isRight": false
+    },
+    "3021": {
+        "id": 3021,
+        "word": "延迟 ",
+        "isRight": false
+    },
+    "3031": {
+        "id": 3031,
+        "word": "断章取义",
+        "isRight": false
+    },
+    "3041": {
+        "id": 3041,
+        "word": "瞒天过海",
+        "isRight": false
+    },
+    "3051": {
+        "id": 3051,
+        "word": "一无所知",
+        "isRight": false
+    },
+    "3061": {
+        "id": 3061,
+        "word": "井底之蛙",
+        "isRight": false
+    },
+    "3071": {
+        "id": 3071,
+        "word": "不识之无",
+        "isRight": false
+    },
+    "3081": {
+        "id": 3081,
+        "word": "束之高阁",
+        "isRight": false
+    },
+    "3091": {
+        "id": 3091,
+        "word": "走马观花",
+        "isRight": false
+    },
+    "3101": {
+        "id": 3101,
+        "word": "颐指气使",
+        "isRight": false
+    },
+    "3111": {
+        "id": 3111,
+        "word": "倨傲无力",
+        "isRight": false
+    },
+    "3121": {
+        "id": 3121,
+        "word": "目无尊长",
+        "isRight": false
+    },
+    "3131": {
+        "id": 3131,
+        "word": "趾高气昂",
+        "isRight": false
+    },
+    "3141": {
+        "id": 3141,
+        "word": "不理不睬",
+        "isRight": false
+    },
+    "3151": {
+        "id": 3151,
+        "word": "恶意投诉",
+        "isRight": false
+    },
+    "3161": {
+        "id": 3161,
+        "word": "过度承诺 ",
+        "isRight": false
+    },
+    "3171": {
+        "id": 3171,
+        "word": "逾期处理",
+        "isRight": false
+    },
+    "3181": {
+        "id": 3181,
+        "word": "拒不受理",
+        "isRight": false
+    },
+    "3191": {
+        "id": 3191,
+        "word": "拒不接受",
+        "isRight": false
+    },
+    "3201": {
+        "id": 3201,
+        "word": "捆绑销售",
+        "isRight": false
+    },
+    "3211": {
+        "id": 3211,
+        "word": "代客操作",
+        "isRight": false
+    },
+    "3221": {
+        "id": 3221,
+        "word": "不当得利",
+        "isRight": false
+    },
+    "3231": {
+        "id": 3231,
+        "word": "过度营销",
+        "isRight": false
+    },
+    "3241": {
+        "id": 3241,
+        "word": "虚假宣传",
+        "isRight": false
+    },
+    "3251": {
+        "id": 3251,
+        "word": "擅自做主",
+        "isRight": false
+    },
+    "3261": {
+        "id": 3261,
+        "word": "诱导",
+        "isRight": false
+    },
+    "3271": {
+        "id": 3271,
+        "word": "别有用心",
+        "isRight": false
+    },
+    "3281": {
+        "id": 3281,
+        "word": "恶意敛财",
+        "isRight": false
+    },
+    "3291": {
+        "id": 3291,
+        "word": "账户盗刷",
+        "isRight": false
+    },
+    "3301": {
+        "id": 3301,
+        "word": "亡羊补牢",
+        "isRight": false
+    },
+    "3311": {
+        "id": 3311,
+        "word": "内幕消息",
+        "isRight": false
+    },
+    "3321": {
+        "id": 3321,
+        "word": "盗取信息",
+        "isRight": false
+    },
+    "3331": {
+        "id": 3331,
+        "word": "安全漏洞",
+        "isRight": false
+    },
+    "3341": {
+        "id": 3341,
+        "word": "网络破坏",
+        "isRight": false
+    },
+    "3351": {
+        "id": 3351,
+        "word": "信息丢失",
+        "isRight": false
+    },
+    "3361": {
+        "id": 3361,
+        "word": "网络风险",
+        "isRight": false
+    },
+    "3371": {
+        "id": 3371,
+        "word": "虚词诡说",
+        "isRight": false
+    },
+    "3381": {
+        "id": 3381,
+        "word": "滞后",
+        "isRight": false
+    },
+    "3391": {
+        "id": 3391,
+        "word": "欲盖弥彰",
+        "isRight": false
+    },
+    "3401": {
+        "id": 3401,
+        "word": "欺上瞒下",
+        "isRight": false
+    },
+    "3411": {
+        "id": 3411,
+        "word": "一曝十寒",
+        "isRight": false
+    },
+    "3421": {
+        "id": 3421,
+        "word": "末学肤受",
+        "isRight": false
+    },
+    "3431": {
+        "id": 3431,
+        "word": "不学无识",
+        "isRight": false
+    },
+    "3441": {
+        "id": 3441,
+        "word": "累教不改",
+        "isRight": false
+    },
+    "3451": {
+        "id": 3451,
+        "word": "鹘仑吞枣",
+        "isRight": false
+    },
+    "3461": {
+        "id": 3461,
+        "word": "马耳东风",
+        "isRight": false
+    },
+    "3471": {
+        "id": 3471,
+        "word": "蛮横无理",
+        "isRight": false
+    },
+    "3481": {
+        "id": 3481,
+        "word": "桀骜不驯",
+        "isRight": false
+    },
+    "3491": {
+        "id": 3491,
+        "word": "鄙夷不屑",
+        "isRight": false
+    },
+    "3501": {
+        "id": 3501,
+        "word": "差强人意",
+        "isRight": false
+    },
+    "3511": {
+        "id": 3511,
+        "word": "过度维权",
+        "isRight": false
+    },
+    "3521": {
+        "id": 3521,
+        "word": "瞒报漏报",
+        "isRight": false
+    },
+    "3531": {
+        "id": 3531,
+        "word": "捏造事实",
+        "isRight": false
+    },
+    "3541": {
+        "id": 3541,
+        "word": "纠缠投诉",
+        "isRight": false
+    },
+    "3551": {
+        "id": 3551,
+        "word": "反复投诉",
+        "isRight": false
+    },
+    "3561": {
+        "id": 3561,
+        "word": "借贷搭售",
+        "isRight": false
+    },
+    "3571": {
+        "id": 3571,
+        "word": "披露不全",
+        "isRight": false
+    },
+    "3581": {
+        "id": 3581,
+        "word": "以次充好",
+        "isRight": false
+    },
+    "3591": {
+        "id": 3591,
+        "word": "夸大宣传",
+        "isRight": false
+    },
+    "3601": {
+        "id": 3601,
+        "word": "霸王条款",
+        "isRight": false
+    },
+    "3611": {
+        "id": 3611,
+        "word": "搭售商品",
+        "isRight": false
+    },
+    "3621": {
+        "id": 3621,
+        "word": "过度消费",
+        "isRight": false
+    },
+    "3631": {
+        "id": 3631,
+        "word": "密码泄露",
+        "isRight": false
+    },
+    "3641": {
+        "id": 3641,
+        "word": "财产侵害",
+        "isRight": false
+    },
+    "3651": {
+        "id": 3651,
+        "word": "霸王条款",
+        "isRight": false
+    },
+    "3661": {
+        "id": 3661,
+        "word": "不法侵害",
+        "isRight": false
+    },
+    "3671": {
+        "id": 3671,
+        "word": "诈骗短信",
+        "isRight": false
+    },
+    "3681": {
+        "id": 3681,
+        "word": "不明链接",
+        "isRight": false
+    },
+    "3691": {
+        "id": 3691,
+        "word": "违规滥用",
+        "isRight": false
+    },
+    "3701": {
+        "id": 3701,
+        "word": "弱口令",
+        "isRight": false
+    },
+    "3711": {
+        "id": 3711,
+        "word": "虚假数据",
+        "isRight": false
+    },
+    "3721": {
+        "id": 3721,
+        "word": "违规保管",
+        "isRight": false
+    },
+    "3731": {
+        "id": 3731,
+        "word": "非法运营",
+        "isRight": false
+    },
+    "3741": {
+        "id": 3741,
+        "word": "欺公罔法",
+        "isRight": false
+    },
+    "3751": {
+        "id": 3751,
+        "word": "遮天蔽日",
+        "isRight": false
+    },
+    "3761": {
+        "id": 3761,
+        "word": "以管窥天",
+        "isRight": false
+    },
+    "3771": {
+        "id": 3771,
+        "word": "欺三瞒四",
+        "isRight": false
+    },
+    "3781": {
+        "id": 3781,
+        "word": "困而不学",
+        "isRight": false
+    },
+    "3791": {
+        "id": 3791,
+        "word": "囫囵吞枣",
+        "isRight": false
+    },
+    "3801": {
+        "id": 3801,
+        "word": "自以为是",
+        "isRight": false
+    },
+    "3811": {
+        "id": 3811,
+        "word": "独学寡闻",
+        "isRight": false
+    },
+    "3821": {
+        "id": 3821,
+        "word": "款学寡闻",
+        "isRight": false
+    },
+    "3831": {
+        "id": 3831,
+        "word": "尖酸刻薄",
+        "isRight": false
+    },
+    "3841": {
+        "id": 3841,
+        "word": "鄙夷不屑",
+        "isRight": false
+    },
+    "3851": {
+        "id": 3851,
+        "word": "差强人意",
+        "isRight": false
+    },
+    "3861": {
+        "id": 3861,
+        "word": "恶语相向",
+        "isRight": false
+    },
+    "3871": {
+        "id": 3871,
+        "word": "斯文扫地",
+        "isRight": false
+    },
+    "3881": {
+        "id": 3881,
+        "word": "拒不赔偿",
+        "isRight": false
+    },
+    "3891": {
+        "id": 3891,
+        "word": "逃避责任",
+        "isRight": false
+    },
+    "3901": {
+        "id": 3901,
+        "word": "无故拒绝",
+        "isRight": false
+    },
+    "3911": {
+        "id": 3911,
+        "word": "恶意投诉",
+        "isRight": false
+    },
+    "3921": {
+        "id": 3921,
+        "word": "恶意中伤",
+        "isRight": false
+    },
+    "3931": {
+        "id": 3931,
+        "word": "规避义务",
+        "isRight": false
+    },
+    "3941": {
+        "id": 3941,
+        "word": "过度销售",
+        "isRight": false
+    },
+    "3951": {
+        "id": 3951,
+        "word": "有失公平",
+        "isRight": false
+    },
+    "3961": {
+        "id": 3961,
+        "word": "无效合同",
+        "isRight": false
+    },
+    "3971": {
+        "id": 3971,
+        "word": "虚假标价",
+        "isRight": false
+    },
+    "3981": {
+        "id": 3981,
+        "word": "强买强卖",
+        "isRight": false
+    },
+    "3991": {
+        "id": 3991,
+        "word": "滥用权力",
+        "isRight": false
+    },
+    "4001": {
+        "id": 4001,
+        "word": "有奖销售",
+        "isRight": false
+    },
+    "4011": {
+        "id": 4011,
+        "word": "套利账户",
+        "isRight": false
+    },
+    "4021": {
+        "id": 4021,
+        "word": "集资诈骗",
+        "isRight": false
+    },
+    "4031": {
+        "id": 4031,
+        "word": "消费争议",
+        "isRight": false
+    },
+    "4041": {
+        "id": 4041,
+        "word": "贪图便宜",
+        "isRight": false
+    },
+    "4051": {
+        "id": 4051,
+        "word": "违禁销售",
+        "isRight": false
+    },
+    "4061": {
+        "id": 4061,
+        "word": "网络诈骗",
+        "isRight": false
+    },
+    "4071": {
+        "id": 4071,
+        "word": "非法盗取",
+        "isRight": false
+    },
+    "4081": {
+        "id": 4081,
+        "word": "缓存溢出",
+        "isRight": false
+    },
+    "4091": {
+        "id": 4091,
+        "word": "非法运营",
+        "isRight": false
+    },
+    "4101": {
+        "id": 4101,
+        "word": "危害广泛",
+        "isRight": false
+    },
+    "4111": {
+        "id": 4111,
+        "word": "虚假数据",
+        "isRight": false
+    },
+    "4121": {
+        "id": 4121,
+        "word": "矫情饰诈",
+        "isRight": false
+    },
+    "4131": {
+        "id": 4131,
+        "word": "尺水丈波",
+        "isRight": false
+    },
+    "4141": {
+        "id": 4141,
+        "word": "晦涩难懂",
+        "isRight": false
+    },
+    "4151": {
+        "id": 4151,
+        "word": "一叶障目",
+        "isRight": false
+    },
+    "4161": {
+        "id": 4161,
+        "word": "蒙混过关",
+        "isRight": false
+    },
+    "4171": {
+        "id": 4171,
+        "word": "不懂装懂",
+        "isRight": false
+    },
+    "4181": {
+        "id": 4181,
+        "word": "暗室求物",
+        "isRight": false
+    },
+    "4191": {
+        "id": 4191,
+        "word": "学非所用",
+        "isRight": false
+    },
+    "4201": {
+        "id": 4201,
+        "word": "记问之学",
+        "isRight": false
+    },
+    "4211": {
+        "id": 4211,
+        "word": "三心二意",
+        "isRight": false
+    },
+    "4221": {
+        "id": 4221,
+        "word": "鼻孔朝天",
+        "isRight": false
+    },
+    "4231": {
+        "id": 4231,
+        "word": "数典忘祖",
+        "isRight": false
+    },
+    "4241": {
+        "id": 4241,
+        "word": "狐假虎威",
+        "isRight": false
+    },
+    "4251": {
+        "id": 4251,
+        "word": "扬威耀武",
+        "isRight": false
+    },
+    "4261": {
+        "id": 4261,
+        "word": "断章取义",
+        "isRight": false
+    },
+    "4271": {
+        "id": 4271,
+        "word": "暴力维权",
+        "isRight": false
+    },
+    "4281": {
+        "id": 4281,
+        "word": "投诉无门",
+        "isRight": false
+    },
+    "4291": {
+        "id": 4291,
+        "word": "投诉升级",
+        "isRight": false
+    },
+    "4301": {
+        "id": 4301,
+        "word": "无故投诉",
+        "isRight": false
+    },
+    "4311": {
+        "id": 4311,
+        "word": "限制交易",
+        "isRight": false
+    },
+    "4321": {
+        "id": 4321,
+        "word": "乱收费",
+        "isRight": false
+    },
+    "4331": {
+        "id": 4331,
+        "word": "虚假销售",
+        "isRight": false
+    },
+    "4341": {
+        "id": 4341,
+        "word": "信息短缺",
+        "isRight": false
+    },
+    "4351": {
+        "id": 4351,
+        "word": "虚构条款",
+        "isRight": false
+    },
+    "4361": {
+        "id": 4361,
+        "word": "违备意愿",
+        "isRight": false
+    },
+    "4371": {
+        "id": 4371,
+        "word": "以次充好",
+        "isRight": false
+    },
+    "4381": {
+        "id": 4381,
+        "word": "处心积虑",
+        "isRight": false
+    },
+    "4391": {
+        "id": 4391,
+        "word": "电信诈骗",
+        "isRight": false
+    },
+    "4401": {
+        "id": 4401,
+        "word": "非法挪用",
+        "isRight": false
+    },
+    "4411": {
+        "id": 4411,
+        "word": "缺乏保障",
+        "isRight": false
+    },
+    "4421": {
+        "id": 4421,
+        "word": "假冒伪略",
+        "isRight": false
+    },
+    "4431": {
+        "id": 4431,
+        "word": "盲目付款",
+        "isRight": false
+    },
+    "4441": {
+        "id": 4441,
+        "word": "网络入侵",
+        "isRight": false
+    },
+    "4451": {
+        "id": 4451,
+        "word": "木马病毒",
+        "isRight": false
+    },
+    "4461": {
+        "id": 4461,
+        "word": "未经授权",
+        "isRight": false
+    },
+    "4471": {
+        "id": 4471,
+        "word": "违规销毁",
+        "isRight": false
+    },
+    "4481": {
+        "id": 4481,
+        "word": "信息缺失",
+        "isRight": false
+    },
+    "4491": {
+        "id": 4491,
+        "word": "浮皮潦草",
+        "isRight": false
+    },
+    "4501": {
+        "id": 4501,
+        "word": "弄虚作假",
+        "isRight": false
+    },
+    "4511": {
+        "id": 4511,
+        "word": "偷梁换柱",
+        "isRight": false
+    },
+    "4521": {
+        "id": 4521,
+        "word": "掩耳盗铃",
+        "isRight": false
+    }
+}

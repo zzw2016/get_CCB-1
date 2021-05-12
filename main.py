@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.10.1
-# UpdateDate: 2020-05-12 10:41
-# UpdateLog: 新增消保分会场眼力大考验活动答题、助力功能
+# Version: 0.10.2
+# UpdateDate: 2020-05-12 13:08
+# UpdateLog: 新增消保分会场眼力大考验活动题库、抽奖功能
 
 import requests
 import json
@@ -41,6 +41,7 @@ class getCCB():
         self.xsrfToken = self.cookies['XSRF-TOKEN'].replace('%3D','=')
         self.whcanswerFilePath = rootDir + '/whcanswer.json'
         self.xbanswerFilePath = rootDir + '/xbanswer.json'
+        self.xbpickonFilePath = rootDir + '/xbpickon.json'
 
 
     def getApi(self,functionId,activityId='lPYNjdmN',params=()):
@@ -664,6 +665,13 @@ class getCCB():
         '''
         logger.info('')
         logger.info('开始做 消保分会场眼力大考验 活动')
+        # 读取题库
+        if os.path.exists(self.xbpickonFilePath):
+            with open(self.xbpickonFilePath,encoding='UTF-8') as fp:
+                questionDict = json.load(fp)
+        else:
+            logger.info('题库不存在，请下载完整题库')
+            return False
         # 读取活动信息
         activityInfo = self.getApi('Common/activity/getActivityInfo','QPyo86Zj')
         if int(time.time()) < activityInfo['data']['end_time']:
@@ -680,25 +688,40 @@ class getCCB():
                     self.getApi('activity/xbpickon/reduceNum','QPyo86Zj')
                     # 获取题目
                     questionInfo = self.getApi('activity/xbpickon/getQuestion','QPyo86Zj')
-                    questionIds = []
+                    questionWordList = []
+                    rightIdList = []
+                    rightWordList = []
                     for i in range(len(questionInfo['data'])):
-                        questionIds.append(str(questionInfo['data'][i]['id']))
-                    strQuestionIds = ','.join(questionIds)
-                    logger.info('词汇ID：{}'.format(strQuestionIds))
+                        questionWordList.append(questionInfo['data'][i]['word'])
+                        if questionDict[str(questionInfo['data'][i]['id'])]['isRight'] == True:
+                            rightIdList.append(str(questionInfo['data'][i]['id']))
+                            rightWordList.append(questionInfo['data'][i]['word'])
+                    strQuestionIds = ','.join(rightIdList)
+                    logger.info('请在下列词汇中找出所有正面词汇{}'.format(questionWordList))
+                    logger.info(rightIdList)
+                    logger.info('选择{}'.format(rightWordList))
                     data = '{"answerId":"' + strQuestionIds + '"}'
                     answerResult = self.postApi('activity/xbpickon/answerQuestion',data,'QPyo86Zj')
-                    trueWordsId = answerResult['data']['right'].split(",")
-                    falseWordsId = list(set(questionIds) - set(trueWordsId))
-                    logger.info('正确词汇ID：{}'.format(trueWordsId))
-                    logger.info('错误词汇ID：{}'.format(falseWordsId))
-                    trueId = '@'.join(trueWordsId)
-                    falseId = '@'.join(falseWordsId)
-                    # 上传答案至服务器（搜集题库）
-                    requests.get('http://47.100.61.159:10080/judge?trueId={}&falseId={}'.format(trueId,falseId))
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
             else:
                 logger.info('今日已无答题机会')
+
+            # 抽奖
+            # 获取剩余抽奖次数
+            userDataInfo = self.getApi('activity/xbpickon/getUserDataInfo','QPyo86Zj')
+            if int(userDataInfo['data']['draw_remain_num']) > 0:
+                logger.info('今日剩余抽奖次数{}'.format(userDataInfo['data']['draw_remain_num']))
+                for i in range(int(userDataInfo['data']['draw_remain_num'])):
+                    drawResult = self.getApi('activity/xbpickon/draw','QPyo86Zj')
+                    if drawResult['status'] == 'success':
+                        logger.info('获得{}'.format(drawResult['data']['prizename']))
+                    else:
+                        logger.info(drawResult)
+                    # 休息5秒，防止接口频繁
+                    time.sleep(5)
+            else:
+                logger.info('今日已无抽奖机会')
 
             # 助力
             logger.info('开始助力好友')
