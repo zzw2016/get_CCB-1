@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.10.3
-# UpdateDate: 2020-05-12 13:39
-# UpdateLog: 优化请求接口及Cookie有效性检测流程
+# Version: 0.10.4
+# UpdateDate: 2020-05-17 10:40
+# UpdateLog: 关闭天天抽奖
 
 import requests
 import json
@@ -904,8 +904,8 @@ class getCCB():
             self.doSubvenueTask()
             # 车主分会场活动
             self.doCarTask()
-            # 天天抽奖活动
-            self.draw()
+            # # 天天抽奖活动
+            # self.draw()
             # 每日一答
             self.dayAnswer()
             # 母亲节晒妈活动
