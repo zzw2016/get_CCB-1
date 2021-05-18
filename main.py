@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.10.4
-# UpdateDate: 2020-05-17 10:40
-# UpdateLog: 关闭天天抽奖
+# Version: 0.10.5
+# UpdateDate: 2020-05-18 23:10
+# UpdateLog: 移除过期活动、添加天天抽奖开关、添加车主分会场抽奖暴富时刻判断
 
 import requests
 import json
@@ -16,7 +16,7 @@ import urllib.parse
 import logging
 
 class getCCB():
-    def __init__(self,cookies,shareCode):
+    def __init__(self,cookies,shareCode,dayDraw):
         self.cookies = cookies
         self.ua = 'Mozilla/5.0 (Linux; Android 11; Redmi K30 5G Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045613 Mobile Safari/537.36 MMWEBID/6824 micromessenger/8.0.1.1841(0x28000151) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64'
         shareCodeKeys = shareCode.keys()
@@ -42,6 +42,7 @@ class getCCB():
         self.whcanswerFilePath = rootDir + '/whcanswer.json'
         self.xbanswerFilePath = rootDir + '/xbanswer.json'
         self.xbpickonFilePath = rootDir + '/xbpickon.json'
+        self.dayDraw = dayDraw
 
 
     def getApi(self,functionId,activityId='lPYNjdmN',params=()):
@@ -177,7 +178,6 @@ class getCCB():
         '''
         logger.info('')
         logger.info('开始做日常任务')
-        self.getUserInfo()
         activityInfo = self.getApi('Common/activity/getActivityInfo')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 获取任务列表
@@ -330,15 +330,18 @@ class getCCB():
             carIndexInfo = self.getApi('activity/parallelsessions/index','dmRe4rPD')
             logger.info('车主分会场剩余抽奖次数{}'.format(carIndexInfo['data']['remain_num']))
             # 抽奖
-            if int(carIndexInfo['data']['remain_num']) > 0:
-                for i in range(int(carIndexInfo['data']['remain_num'])):
-                    drawResult = self.postApi('activity/parallelsessions/draw',{},'dmRe4rPD')
-                    if drawResult['status'] == 'success':
-                        logger.info(drawResult['data']['prizename'])
-                    else:
-                        logger.info(drawResult['message'])
-                    # 休息四秒，防止接口频繁
-                    time.sleep(4)
+            if time.strftime("%a", time.localtime()) == 'Fri' and int(time.strftime("%H", time.localtime())) >= 14:
+                if int(carIndexInfo['data']['remain_num']) > 0:
+                    for i in range(int(carIndexInfo['data']['remain_num'])):
+                        drawResult = self.postApi('activity/parallelsessions/draw',{},'dmRe4rPD')
+                        if drawResult['status'] == 'success':
+                            logger.info(drawResult['data']['prizename'])
+                        else:
+                            logger.info(drawResult['message'])
+                        # 休息四秒，防止接口频繁
+                        time.sleep(4)
+            else:
+                logger.info('未到暴富时刻，请在下午2点-6点运行一次脚本')
         else:
             logger.info('抱歉，该活动已结束')
 
@@ -352,6 +355,9 @@ class getCCB():
         '''
         logger.info('')
         logger.info('开始天天抽奖')
+        if self.dayDraw == False:
+            logger.info('检测到您选择不抽奖，跳过抽奖')
+            return False
         activityInfo = self.getApi('Common/activity/getActivityInfo','03ljx6mW')
         if int(time.time()) < activityInfo['data']['end_time']:
             # 检查报名状态
@@ -898,18 +904,20 @@ class getCCB():
 
     def main(self):
         try:
+            # 获取用户信息
+            self.getUserInfo()
+            # 天天抽奖活动
+            self.draw()
             # 主会场活动
             self.doFdtopicTask()
             # 龙支付分会场活动
             self.doSubvenueTask()
             # 车主分会场活动
             self.doCarTask()
-            # # 天天抽奖活动
-            # self.draw()
             # 每日一答
             self.dayAnswer()
-            # 母亲节晒妈活动
-            self.mothersDayTask()
+            # # 母亲节晒妈活动
+            # self.mothersDayTask()
             # 学外汇 得实惠活动
             self.doWhcanswer()
             # 消保分会场知识大考验
@@ -977,8 +985,10 @@ if __name__ == '__main__':
             logDir = config['logDir'] + "/ccb_main/"
     global logger
     logger = createLog(logDir)
+    if "dayDraw" not in config:
+        config['dayDraw'] = False
     for i in range(len(config['cookie'])):
-        user = getCCB(config['cookie'][i],config['shareCode'])
+        user = getCCB(config['cookie'][i],config['shareCode'],config['dayDraw'])
         if user.checkCookie():
             user.main()
         else:

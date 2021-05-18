@@ -13,5 +13,6 @@
         "xbpickon": [],
         "lctopic": []
     },
-    "logDir": ""
+    "logDir": "",
+    "dayDraw": false
 }
