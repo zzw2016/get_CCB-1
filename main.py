@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.10.5
-# UpdateDate: 2020-05-18 23:10
-# UpdateLog: 移除过期活动、添加天天抽奖开关、添加车主分会场抽奖暴富时刻判断
+# Version: 0.10.6
+# UpdateDate: 2020-05-18 20:32
+# UpdateLog: 添加天天抽奖跳出条件，亏损达20CC币跳出抽奖
 
 import requests
 import json
@@ -382,7 +382,10 @@ class getCCB():
                             logger.info(drawResult['message'] + drawResult['data']['prizename'])
                         # 判断总盈利
                         if drawTotalCCB >= breakTotalCCB:
-                            logger.info('本轮抽奖总盈利已达{}CC币，退出抽奖'.format(breakTotalCCB))
+                            logger.info('本轮抽奖总盈利已达{}CC币，退出抽奖'.format(drawTotalCCB))
+                            break
+                        elif drawTotalCCB <= 20:
+                            logger.info('本轮抽奖总损失已达{}CC币，为避免更多损失，退出抽奖'.format(drawTotalCCB))
                             break
                         # 休息5秒，避免接口频繁
                         time.sleep(5)
