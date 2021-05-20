@@ -1,9 +1,9 @@
 # Author: leeyiding(乌拉)
 # Date: 2020-05-05
 # Link: https://github.com/leeyiding/get_CCB
-# Version: 0.10.6
-# UpdateDate: 2020-05-18 20:32
-# UpdateLog: 添加天天抽奖跳出条件，亏损达20CC币跳出抽奖
+# Version: 0.10.7
+# UpdateDate: 2020-05-20 9:22
+# UpdateLog: 优化日志输出
 
 import requests
 import json
@@ -297,9 +297,10 @@ class getCCB():
                 elif taskList['data']['task'][i]['day_complete'] == 0:
                     data = '{"code": "' + taskList['data']['task'][i]['indicator']['code'] + '"}'
                     doTaskResult = self.postApi('activity/lzfsubvenue/visit',data,'5Z9WxaPK')
-                    logger.info(doTaskResult)
                     if doTaskResult['message'] == 'ok':
                         logger.info('任务完成，获得5CC币')
+                    else:
+                        logger.info(doTaskResult['message'])
                     time.sleep(5)
         else:
             logger.info('抱歉，该活动已结束')
@@ -341,7 +342,7 @@ class getCCB():
                         # 休息四秒，防止接口频繁
                         time.sleep(4)
             else:
-                logger.info('未到暴富时刻，请在下午2点-6点运行一次脚本')
+                logger.info('未到暴富时刻，请在周五下午2点-6点运行一次脚本')
         else:
             logger.info('抱歉，该活动已结束')
 
@@ -574,7 +575,10 @@ class getCCB():
                 logger.info('今日剩余抽奖次数{}'.format(userDataInfo['data']['drawUserExt']['remain_num']))
                 for i in range(int(userDataInfo['data']['drawUserExt']['remain_num'])):
                     drawResult = self.getApi('activity/whcdraw/draw','lPYNEEmN')
-                    logger.info(drawResult)
+                    if drawResult['status'] == 'success':
+                        logger.info('获得{}'.format(drawResult['data']['prizename']))
+                    else:
+                        logger.info(drawResult)
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
             else:
@@ -662,7 +666,10 @@ class getCCB():
                 logger.info('今日剩余抽奖次数{}'.format(userDataInfo['data']['drawUserExt']['remain_num']))
                 for i in range(int(userDataInfo['data']['drawUserExt']['remain_num'])):
                     drawResult = self.getApi('activity/xbdraw/draw','jmX05Qmd')
-                    logger.info(drawResult)
+                    if drawResult['status'] == 'success':
+                        logger.info('获得{}'.format(drawResult['data']['prizename']))
+                    else:
+                        logger.info(drawResult)
                     # 休息5秒，防止接口频繁
                     time.sleep(5)
             else:
@@ -794,7 +801,10 @@ class getCCB():
                         userId = activityDetail['data']['userInfo']['userId']
                         taskId = activityDetail['data']['tasks'][0]['taskId']
                         awardResult = self.payCostApi('activityRedeemPoint',(('userId', userId),('taskId', taskId),('date', date),))
-                        logger.info(awardResult)
+                        if awardResult['success'] == True:
+                            logger.info('获得{}CC币'.format(awardResult['data']))
+                        else:
+                            logger.info(awardResult['message'])
                     else:
                         logger.info('第{}天暂无奖励可领取'.format(signsInfo[i]['continueDays']))
             else:
